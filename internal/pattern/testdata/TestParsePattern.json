@@ -1,0 +1,92 @@
+[
+    {
+        "input": "",
+        "expected": [],
+        "err": "err: empty pattern"
+    },
+    {
+        "input": "/",
+        "expected": [],
+        "err": "err: incomplete group separator"
+    },
+    {
+        "input": "/sa/",
+        "expected": [],
+        "err": "err: incomplete group separator"
+    },
+    {
+        "input": "/1a",
+        "expected": [],
+        "err": "err: unknown group type specifier"
+    },
+    {
+        "input": "/d123//sabc",
+        "expected": [],
+        "err": "err: empty group"
+    },
+    {
+        "input": "/s/sa",
+        "expected": [],
+        "err": "err: empty group"
+    },
+    {
+        "input": "/d1s",
+        "expected": [],
+        "err": "err: invalid character in column group"
+    },
+    {
+        "input": "/d-1/sa",
+        "expected": [],
+        "err": "err: negative number in column group"
+    },
+    {
+        "input": "/d1234",
+        "expected": [
+            {
+                "type": 0,
+                "column": 1234,
+                "text": ""
+            }
+        ]
+    },
+    {
+        "input": "/d1/s1",
+        "expected": [
+            {
+                "type": 0,
+                "column": 1,
+                "text": ""
+            },
+            {
+                "type": 1,
+                "column": -1,
+                "text": "1"
+            }
+        ]
+    },
+    {
+        "input": "/d1/sa,1",
+        "expected": [
+            {
+                "type": 0,
+                "column": 1,
+                "text": ""
+            },
+            {
+                "type": 1,
+                "column": -1,
+                "text": "a,1"
+            }
+        ]
+    },
+    {
+        "input": "/ss",
+        "expected": [
+            {
+                "type": 1,
+                "column": -1,
+                "text": "s"
+            }
+        ]
+    }
+]
