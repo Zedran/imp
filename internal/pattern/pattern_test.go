@@ -19,7 +19,7 @@ func TestParsePattern(t *testing.T) {
 
 	err := tests.ReadData("TestParsePattern.json", &cases)
 	if err != nil {
-		t.Errorf("failed to load test data: '%v'", err)
+		t.Fatalf("failed to load test data: '%v'", err)
 	}
 
 	for _, c := range cases {
@@ -27,11 +27,11 @@ func TestParsePattern(t *testing.T) {
 
 		if err != nil {
 			if !strings.HasPrefix(err.Error(), c.Err) {
-				t.Errorf("incorrect error message for '%s': '%v' != '%v*'", c.Input, err, c.Err)
+				t.Fatalf("incorrect error message for '%s': '%v' != '%v*'", c.Input, err, c.Err)
 			}
 		} else {
 			if !slices.Equal(out, c.Expected) {
-				t.Errorf("incorrect output for '%s': %v != %v", c.Input, out, c.Expected)
+				t.Fatalf("incorrect output for '%s': %v != %v", c.Input, out, c.Expected)
 			}
 		}
 
