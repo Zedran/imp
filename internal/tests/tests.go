@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"crypto/sha256"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -16,4 +17,11 @@ func ReadData(fname string, v any) error {
 		return err
 	}
 	return json.Unmarshal(stream, v)
+}
+
+// SHA256 returns SHA256 sum of data.
+func SHA256(data []byte) []byte {
+	hasher := sha256.New()
+	hasher.Write(data)
+	return hasher.Sum(nil)
 }
