@@ -7,41 +7,54 @@ import (
 	"strings"
 )
 
-// Converts user input into a sequence of Tokens.
-func ParsePattern(pattern string) ([]Token, error) {
-	if len(pattern) < 1 {
-		return []Token{}, errors.New("err: empty pattern")
+// Spec is derived from a user-provided string pattern. It contains
+// information about the structure of the output CSV file.
+type Spec struct {
+	// A sequence of Token structs that indicates the new row layout.
+	Tokens []Token `json:"tokens"`
+
+	// CSV separator character.
+	Comma rune `json:"comma"`
+}
+
+// ParsePattern converts user input into a Specification struct.
+func ParsePattern(pattern string) (Spec, error) {
+	if len(pattern) < 2 {
+		return Spec{}, errors.New("err: empty pattern")
 	}
 
-	sep := rune(pattern[0])
+	comma := rune(pattern[0])
+	sep := rune(pattern[1])
 
 	if strings.HasSuffix(pattern, string(sep)) {
-		return []Token{}, errors.New("err: incomplete group separator")
+		return Spec{}, errors.New("err: incomplete group separator")
 	}
 
-	groups := strings.Split(pattern[1:], string(sep))
+	groups := strings.Split(pattern[2:], string(sep))
 
 	tokens := make([]Token, 0, len(groups))
 
 	for _, g := range groups {
 		if len(g) < 2 {
-			return []Token{}, fmt.Errorf("err: empty group: '%s'", g)
+			return Spec{}, fmt.Errorf("err: empty group: '%s'", g)
 		}
 
 		switch g[0] {
 		case 'd':
 			num, err := strconv.Atoi(g[1:])
 			if err != nil {
-				return []Token{}, fmt.Errorf("err: invalid character in column group: '%s'", g)
+				return Spec{}, fmt.Errorf("err: invalid character in column group: '%s'", g)
 			}
 			if num < 0 {
-				return []Token{}, fmt.Errorf("err: negative number in column group: '%d'", num)
+				return Spec{}, fmt.Errorf("err: negative number in column group: '%d'", num)
 			}
 			tokens = append(tokens, NewColumnToken(num))
 		case 's':
 			tokens = append(tokens, NewTextToken(g[1:]))
+		default:
+			return Spec{}, fmt.Errorf("err: unknown group type specifier: '%s'", g)
 		}
 	}
 
-	return tokens, nil
+	return Spec{tokens, comma}, nil
 }

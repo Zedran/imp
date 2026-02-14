@@ -10,9 +10,9 @@ import (
 
 func TestParsePattern(t *testing.T) {
 	type testData struct {
-		Input    string  `json:"input"`
-		Expected []Token `json:"expected"`
-		Err      string  `json:"err"`
+		Input    string `json:"input"`
+		Expected Spec   `json:"expected"`
+		Err      string `json:"err"`
 	}
 
 	cases := make([]testData, 0)
@@ -30,7 +30,10 @@ func TestParsePattern(t *testing.T) {
 				t.Fatalf("incorrect error message for '%s': '%v' != '%v*'", c.Input, err, c.Err)
 			}
 		} else {
-			if !slices.Equal(out, c.Expected) {
+			if len(c.Err) > 0 {
+				t.Fatalf("no error returned for %s, expected: '%v'", c.Input, c.Err)
+			}
+			if !slices.Equal(out.Tokens, c.Expected.Tokens) || out.Comma != c.Expected.Comma {
 				t.Fatalf("incorrect output for '%s': %v != %v", c.Input, out, c.Expected)
 			}
 		}
