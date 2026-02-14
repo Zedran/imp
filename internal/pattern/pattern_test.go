@@ -31,7 +31,6 @@ func TestParsePattern(t *testing.T) {
 			}
 		} else {
 			if !slices.Equal(out, c.Expected) {
-				t.Logf("%T %T", out[0], c.Expected[0])
 				t.Errorf("incorrect output for '%s': %v != %v", c.Input, out, c.Expected)
 			}
 		}
