@@ -14,13 +14,13 @@ func ParsePattern(pattern string) (Spec, error) {
 	}
 
 	comma := rune(pattern[0])
-	sep := rune(pattern[1])
+	pref := rune(pattern[1])
 
-	if strings.HasSuffix(pattern, string(sep)) {
+	if strings.HasSuffix(pattern, string(pref)) {
 		return Spec{}, errors.New("err: incomplete group separator")
 	}
 
-	groups := strings.Split(pattern[2:], string(sep))
+	groups := strings.Split(pattern[2:], string(pref))
 
 	tokens := make([]Token, 0, len(groups))
 
