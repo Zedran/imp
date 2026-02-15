@@ -18,20 +18,28 @@ func TestOpenUTF8(t *testing.T) {
 
 	refSum := tests.SHA256(reference)
 
-	reader, err := OpenUTF8(path.Join(tests.TEST_DATA_DIR, "windows-1250.txt"), "windows-1250")
-	if err != nil {
-		t.Fatalf("failed to load test data: '%v'", err)
-	}
-	defer reader.Close()
-
-	stream, err := io.ReadAll(reader)
-	if err != nil {
-		t.Fatalf("failed to read normalized data: '%v'", err)
+	cases := []string{
+		"windows-1250",
+		"utf-8",
 	}
 
-	outSum := tests.SHA256(stream)
+	for _, c := range cases {
+		reader, err := OpenUTF8(path.Join(tests.TEST_DATA_DIR, c+".txt"), c)
+		if err != nil {
+			t.Fatalf("failed to load test data: '%v'", err)
+		}
+		defer reader.Close()
 
-	if !slices.Equal(refSum, outSum) {
-		t.Fatalf("normalized data is not equal to the UTF-8 reference")
+		stream, err := io.ReadAll(reader)
+		if err != nil {
+			t.Fatalf("failed to read normalized data: '%v'", err)
+		}
+
+		outSum := tests.SHA256(stream)
+
+		if !slices.Equal(refSum, outSum) {
+			t.Fatalf("normalized '%s' file is not equal to the UTF-8 reference", c)
+		}
 	}
+
 }
