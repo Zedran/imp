@@ -7,16 +7,6 @@ import (
 	"strings"
 )
 
-// Spec is derived from a user-provided string pattern. It contains
-// information about the structure of the output CSV file.
-type Spec struct {
-	// A sequence of Token structs that indicates the new row layout.
-	Tokens []Token `json:"tokens"`
-
-	// CSV separator character.
-	Comma rune `json:"comma"`
-}
-
 // ParsePattern converts user input into a Specification struct.
 func ParsePattern(pattern string) (Spec, error) {
 	if len(pattern) < 2 {
