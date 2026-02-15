@@ -10,6 +10,11 @@
         "err": "err: empty pattern"
     },
     {
+        "input": ",,",
+        "expected": {},
+        "err": "err: comma and prefix are not unique characters"
+    },
+    {
         "input": ",/",
         "expected": {},
         "err": "err: incomplete group separator"

@@ -16,6 +16,10 @@ func ParsePattern(pattern string) (Spec, error) {
 	comma := rune(pattern[0])
 	pref := rune(pattern[1])
 
+	if comma == pref {
+		return Spec{}, errors.New("err: comma and prefix are not unique characters")
+	}
+
 	if strings.HasSuffix(pattern, string(pref)) {
 		return Spec{}, errors.New("err: incomplete group separator")
 	}
