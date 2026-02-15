@@ -76,6 +76,29 @@
         }
     },
     {
+        "input": ",/d1,/s1",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 0,
+                    "column": 1,
+                    "text": ""
+                },
+                {
+                    "type": 1,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 1,
+                    "column": -1,
+                    "text": "1"
+                }
+            ],
+            "comma": 44
+        }
+    },
+    {
         "input": ",/d1/sa,1",
         "expected": {
             "tokens": [

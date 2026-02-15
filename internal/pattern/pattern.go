@@ -41,7 +41,13 @@ func ParsePattern(pattern string) (Spec, error) {
 
 		switch g[0] {
 		case 'd':
-			num, err := strconv.Atoi(g[1:])
+			sub := g[1:]
+			appendComma := false
+			if strings.HasSuffix(sub, string(comma)) {
+				sub = sub[:len(sub)-1]
+				appendComma = true
+			}
+			num, err := strconv.Atoi(sub)
 			if err != nil {
 				return Spec{}, fmt.Errorf("err: invalid character in column group: '%s'", g)
 			}
@@ -49,6 +55,9 @@ func ParsePattern(pattern string) (Spec, error) {
 				return Spec{}, fmt.Errorf("err: negative number in column group: '%d'", num)
 			}
 			tokens = append(tokens, NewColumnToken(num))
+			if appendComma {
+				tokens = append(tokens, NewTextToken(string(comma)))
+			}
 		case 's':
 			tokens = append(tokens, NewTextToken(g[1:]))
 		default:

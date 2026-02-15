@@ -37,6 +37,5 @@ func TestParsePattern(t *testing.T) {
 				t.Fatalf("incorrect output for '%s': %v != %v", c.Input, out, c.Expected)
 			}
 		}
-
 	}
 }
