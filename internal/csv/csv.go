@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/Zedran/imp/internal/encoding"
 	"github.com/Zedran/imp/internal/pattern"
@@ -73,11 +74,13 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 // rewriteRows coordinates the rewriting process. It accepts input Reader
 // and output writer, as well as Spec struct compiled by pattern.ParsePattern.
 func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec) error {
+	comma, _ := utf8.DecodeRuneInString(spec.Comma)
+
 	r := csv.NewReader(input)
-	r.Comma = spec.Comma
+	r.Comma = comma
 
 	w := csv.NewWriter(output)
-	w.Comma = spec.Comma
+	w.Comma = comma
 	defer w.Flush()
 
 	for {

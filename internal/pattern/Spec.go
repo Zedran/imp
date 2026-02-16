@@ -7,5 +7,5 @@ type Spec struct {
 	Tokens []Token `json:"tokens"`
 
 	// CSV separator character.
-	Comma rune `json:"comma"`
+	Comma string `json:"comma"`
 }

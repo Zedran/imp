@@ -13,18 +13,20 @@ func ParsePattern(pattern string) (Spec, error) {
 		return Spec{}, errors.New("err: empty pattern")
 	}
 
-	comma := rune(pattern[0])
-	pref := rune(pattern[1])
+	var (
+		comma = pattern[:1]
+		pref  = pattern[1:2]
+	)
 
 	if comma == pref {
 		return Spec{}, errors.New("err: comma and prefix are not unique characters")
 	}
 
-	if strings.HasSuffix(pattern, string(pref)) {
+	if strings.HasSuffix(pattern, pref) {
 		return Spec{}, errors.New("err: incomplete group separator")
 	}
 
-	groups := strings.Split(pattern[2:], string(pref))
+	groups := strings.Split(pattern[2:], pref)
 
 	tokens := make([]Token, 0, len(groups))
 
@@ -37,7 +39,7 @@ func ParsePattern(pattern string) (Spec, error) {
 		case 'd':
 			sub := g[1:]
 			appendComma := false
-			if strings.HasSuffix(sub, string(comma)) {
+			if strings.HasSuffix(sub, comma) {
 				sub = sub[:len(sub)-1]
 				appendComma = true
 			}
@@ -50,14 +52,14 @@ func ParsePattern(pattern string) (Spec, error) {
 			}
 			tokens = append(tokens, NewColumnToken(num))
 			if appendComma {
-				tokens = append(tokens, NewTextToken(string(comma)))
+				tokens = append(tokens, NewTextToken(comma))
 			}
 		case 's':
-			cols := strings.Split(g[1:], string(comma))
+			cols := strings.Split(g[1:], comma)
 			for i, c := range cols {
 				tokens = append(tokens, NewTextToken(c))
 				if i < len(cols)-1 {
-					tokens = append(tokens, NewTextToken(string(comma)))
+					tokens = append(tokens, NewTextToken(comma))
 				}
 			}
 		default:
