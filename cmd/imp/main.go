@@ -17,6 +17,7 @@ func main() {
 		output   = flag.String("o", "", "output CSV file")
 		encoding = flag.String("c", "utf-8", "input file encoding")
 		pattern  = flag.String("p", "", "pattern that determines how to rewrite the input file")
+		overwrite = flag.Bool("f", false, "overwrite output file if it exists")
 	)
 
 	flag.Usage = func() {
@@ -54,7 +55,7 @@ func main() {
 		log.Fatal("err: input encoding not specified")
 	}
 
-	err := icsv.RewriteCSV(*input, *output, *encoding, *pattern)
+	err := icsv.RewriteCSV(*input, *output, *encoding, *pattern, *overwrite)
 	if err != nil {
 		log.Fatal(err)
 	}

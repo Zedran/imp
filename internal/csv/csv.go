@@ -2,8 +2,10 @@ package csv
 
 import (
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"strings"
 	"unicode/utf8"
@@ -18,9 +20,10 @@ import (
 //   - outputPath    - new CSV file path
 //   - encoding      - the encoding of the original CSV file
 //   - patternString - instructions on how to rewrite the CSV
+//   - overwrite     - if true, output file is overwritten if it exists
 //
 // Returns an error if any stage of the rewriting process fails.
-func RewriteCSV(inputPath, outputPath, enc, patternString string) error {
+func RewriteCSV(inputPath, outputPath, enc, patternString string, overwrite bool) error {
 	spec, err := pattern.ParsePattern(patternString)
 	if err != nil {
 		return err
@@ -31,6 +34,14 @@ func RewriteCSV(inputPath, outputPath, enc, patternString string) error {
 		return err
 	}
 	defer input.Close()
+
+	if !overwrite {
+		if _, err := os.Stat(outputPath); err == nil {
+			return fmt.Errorf("err: file '%s' already exists", outputPath)
+		} else if !errors.Is(err, fs.ErrNotExist) {
+			return fmt.Errorf("err: unexpected error returned from os.Stat: %w", err)
+		}
+	}
 
 	output, err := os.Create(outputPath)
 	if err != nil {
