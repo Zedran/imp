@@ -26,6 +26,9 @@ func TestParsePattern(t *testing.T) {
 		out, err := ParsePattern(c.Input)
 
 		if err != nil {
+			if len(c.Err) == 0 {
+				t.Fatalf("unexpected error message for '%s': '%v'", c.Input, err)
+			}
 			if !strings.HasPrefix(err.Error(), c.Err) {
 				t.Fatalf("incorrect error message for '%s': '%v' != '%v*'", c.Input, err, c.Err)
 			}
