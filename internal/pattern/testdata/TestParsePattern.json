@@ -50,6 +50,11 @@
         "err": "err: negative number in column group"
     },
     {
+        "input": ",/d1,,/sa",
+        "expected": {},
+        "err": "err: invalid character in column group"
+    },
+    {
         "input": ",/d1234",
         "expected": {
             "tokens": [
