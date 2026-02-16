@@ -7,6 +7,7 @@ import (
 	"os"
 
 	icsv "github.com/Zedran/imp/internal/csv"
+	"github.com/Zedran/imp/internal/presets"
 )
 
 func main() {
@@ -18,6 +19,8 @@ func main() {
 		encoding  = flag.String("c", "utf-8", "input file encoding")
 		pattern   = flag.String("p", "", "pattern that determines how to rewrite the input file")
 		overwrite = flag.Bool("f", false, "overwrite output file if it exists")
+		genPreset = flag.Bool("G", false, "generate an empty preset file in user's home directory and exit")
+		preset    = flag.String("P", "", "preset name to be used instead of -e and -p")
 	)
 
 	flag.Usage = func() {
@@ -43,12 +46,28 @@ func main() {
 
 	flag.Parse()
 
+	if *genPreset {
+		if err := presets.GeneratePresetsFile(); err != nil {
+			log.Fatal(err)
+		}
+		os.Exit(0)
+	}
+
 	if len(*input) == 0 {
 		log.Fatal("err: input file not specified")
 	}
 
 	if len(*output) == 0 {
 		log.Fatal("err: output file not specified")
+	}
+
+	if len(*preset) > 0 {
+		preset, err := presets.LoadPreset(*preset)
+		if err != nil {
+			log.Fatal(err)
+		}
+		*encoding = preset.Encoding
+		*pattern = preset.Pattern
 	}
 
 	if len(*encoding) == 0 {

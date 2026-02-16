@@ -1,0 +1,98 @@
+package presets
+
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"io/fs"
+	"os"
+	"path/filepath"
+)
+
+// PRESETS_FILE is the default name of the presets file.
+const PRESETS_FILE string = ".imp-presets.json"
+
+// Preset stores a combination of pattern and encoding. Presets can be written
+// to the presets file to facilitate reuse.
+type Preset struct {
+	// Input file encoding.
+	Encoding string `json:"encoding"`
+
+	// Pattern for output CSV file.
+	Pattern string `json:"pattern"`
+}
+
+// GeneratePresetsFile writes an empty presets file to current user's home
+// directory. If the file is already present, it returns an error.
+func GeneratePresetsFile() error {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return fmt.Errorf("err: failed to locate user's home directory: %w", err)
+	}
+
+	path := filepath.Join(home, PRESETS_FILE)
+
+	if _, err := os.Stat(path); err == nil {
+		return fmt.Errorf("err: file '%s' already exists", path)
+	} else if !errors.Is(err, fs.ErrNotExist) {
+		return fmt.Errorf("err: unexpected error returned from os.Stat: %w", err)
+	}
+
+	f, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	empty := map[string]Preset{"default": {}}
+
+	stream, err := json.MarshalIndent(empty, "", "    ")
+	if err != nil {
+		return err
+	}
+	stream = append(stream, '\n')
+
+	_, err = f.Write(stream)
+	return err
+}
+
+// LoadPreset returns a Preset of the specified name from the presets file.
+// If the Preset is not found, an error message is returned.
+func LoadPreset(name string) (Preset, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return Preset{}, fmt.Errorf("err: failed to locate user's home directory: %w", err)
+	}
+
+	f, err := os.Open(filepath.Join(home, PRESETS_FILE))
+	if err != nil {
+		return Preset{}, fmt.Errorf("err: failed to open the presets file: %w", err)
+	}
+	defer f.Close()
+
+	presets, err := readPresets(f)
+	if err != nil {
+		return Preset{}, fmt.Errorf("err: failed to parse the presets file: %w", err)
+	}
+
+	p, found := presets[name]
+	if !found {
+		return Preset{}, fmt.Errorf("err: preset '%s' not found", name)
+	}
+
+	return p, nil
+}
+
+// readPresets unmarshalls Presets into a map.
+func readPresets(f *os.File) (map[string]Preset, error) {
+	stream, err := io.ReadAll(f)
+	if err != nil {
+		return nil, err
+	}
+
+	var p map[string]Preset
+
+	err = json.Unmarshal(stream, &p)
+	return p, err
+}
