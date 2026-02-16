@@ -14,14 +14,14 @@ func main() {
 	log.SetFlags(0)
 
 	var (
-		input     = flag.String("i", "", "input CSV file")
-		output    = flag.String("o", "", "output CSV file")
-		encoding  = flag.String("c", "utf-8", "input file encoding")
-		pattern   = flag.String("p", "", "pattern that determines how to rewrite the input file")
-		skipHeader  = flag.Bool("1", false, "omit the first line (header) from the input when rewriting")
-		overwrite = flag.Bool("f", false, "overwrite output file if it exists")
-		genPreset = flag.Bool("G", false, "generate an empty preset file in user's home directory and exit")
-		preset    = flag.String("P", "", "preset name to be used instead of -e and -p")
+		input      = flag.String("i", "", "input CSV file")
+		output     = flag.String("o", "", "output CSV file")
+		encoding   = flag.String("c", "utf-8", "input file encoding")
+		pattern    = flag.String("p", "", "pattern that determines how to rewrite the input file")
+		skipHeader = flag.Bool("1", false, "omit the first line (header) from the input when rewriting")
+		overwrite  = flag.Bool("f", false, "overwrite output file if it exists")
+		genPreset  = flag.Bool("G", false, "generate an empty preset file in user's home directory and exit")
+		preset     = flag.String("P", "", "preset name to be used instead of -e and -p")
 	)
 
 	flag.Usage = func() {
