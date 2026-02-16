@@ -13,10 +13,10 @@ func main() {
 	log.SetFlags(0)
 
 	var (
-		input    = flag.String("i", "", "input CSV file")
-		output   = flag.String("o", "", "output CSV file")
-		encoding = flag.String("c", "utf-8", "input file encoding")
-		pattern  = flag.String("p", "", "pattern that determines how to rewrite the input file")
+		input     = flag.String("i", "", "input CSV file")
+		output    = flag.String("o", "", "output CSV file")
+		encoding  = flag.String("c", "utf-8", "input file encoding")
+		pattern   = flag.String("p", "", "pattern that determines how to rewrite the input file")
 		overwrite = flag.Bool("f", false, "overwrite output file if it exists")
 	)
 
