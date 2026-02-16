@@ -69,6 +69,7 @@ func main() {
 		}
 		*encoding = preset.Encoding
 		*pattern = preset.Pattern
+		*noHeader = preset.SkipHeader
 	}
 
 	if len(*encoding) == 0 {

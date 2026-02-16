@@ -21,6 +21,9 @@ type Preset struct {
 
 	// Pattern for output CSV file.
 	Pattern string `json:"pattern"`
+
+	// Indicates whether the header should be skipped.
+	SkipHeader bool `json:"skip_header"`
 }
 
 // GeneratePresetsFile writes an empty presets file to current user's home
