@@ -18,7 +18,7 @@ func main() {
 		output    = flag.String("o", "", "output CSV file")
 		encoding  = flag.String("c", "utf-8", "input file encoding")
 		pattern   = flag.String("p", "", "pattern that determines how to rewrite the input file")
-		noHeader  = flag.Bool("1", false, "omit the first line (header) from the input when rewriting")
+		skipHeader  = flag.Bool("1", false, "omit the first line (header) from the input when rewriting")
 		overwrite = flag.Bool("f", false, "overwrite output file if it exists")
 		genPreset = flag.Bool("G", false, "generate an empty preset file in user's home directory and exit")
 		preset    = flag.String("P", "", "preset name to be used instead of -e and -p")
@@ -69,14 +69,14 @@ func main() {
 		}
 		*encoding = preset.Encoding
 		*pattern = preset.Pattern
-		*noHeader = preset.SkipHeader
+		*skipHeader = preset.SkipHeader
 	}
 
 	if len(*encoding) == 0 {
 		log.Fatal("err: input encoding not specified")
 	}
 
-	err := icsv.RewriteCSV(*input, *output, *encoding, *pattern, *noHeader, *overwrite)
+	err := icsv.RewriteCSV(*input, *output, *encoding, *pattern, *skipHeader, *overwrite)
 	if err != nil {
 		log.Fatal(err)
 	}
