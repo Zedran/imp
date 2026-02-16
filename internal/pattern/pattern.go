@@ -53,7 +53,13 @@ func ParsePattern(pattern string) (Spec, error) {
 				tokens = append(tokens, NewTextToken(string(comma)))
 			}
 		case 's':
-			tokens = append(tokens, NewTextToken(g[1:]))
+			cols := strings.Split(g[1:], string(comma))
+			for i, c := range cols {
+				tokens = append(tokens, NewTextToken(c))
+				if i < len(cols)-1 {
+					tokens = append(tokens, NewTextToken(string(comma)))
+				}
+			}
 		default:
 			return Spec{}, fmt.Errorf("err: unknown group type specifier: '%s'", g)
 		}

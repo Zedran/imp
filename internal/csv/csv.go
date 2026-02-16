@@ -41,30 +41,44 @@ func RewriteCSV(inputPath, outputPath, enc, patternString string) error {
 }
 
 // buildRow returns a single, rewritten row in a string form.
-func buildRow(old []string, spec pattern.Spec) (string, error) {
-	var b strings.Builder
+func buildRow(old []string, spec pattern.Spec) ([]string, error) {
+	var (
+		b      strings.Builder
+		newRow = make([]string, 0, len(spec.Tokens))
+	)
 
 	for _, token := range spec.Tokens {
 		switch token.Type {
 		case pattern.TT_COLUMN:
 			if len(old) <= token.Column {
-				return "", fmt.Errorf("err: column number out of range: '%d'", token.Column)
+				return nil, fmt.Errorf("err: column number out of range: '%d'", token.Column)
 			}
 			b.WriteString(old[token.Column])
 		case pattern.TT_TEXT:
-			b.WriteString(token.Text)
+			if token.Text == string(spec.Comma) {
+				newRow = append(newRow, b.String())
+				b.Reset()
+			} else {
+				b.WriteString(token.Text)
+			}
 		}
 	}
-	b.WriteByte('\n')
+	if b.Len() > 0 {
+		newRow = append(newRow, b.String())
+	}
 
-	return b.String(), nil
+	return newRow, nil
 }
 
 // rewriteRows coordinates the rewriting process. It accepts input Reader
 // and output writer, as well as Spec struct compiled by pattern.ParsePattern.
-func rewriteRows(input io.Reader, output io.StringWriter, spec pattern.Spec) error {
+func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec) error {
 	r := csv.NewReader(input)
 	r.Comma = spec.Comma
+
+	w := csv.NewWriter(output)
+	w.Comma = spec.Comma
+	defer w.Flush()
 
 	for {
 		record, err := r.Read()
@@ -79,7 +93,7 @@ func rewriteRows(input io.Reader, output io.StringWriter, spec pattern.Spec) err
 		if err != nil {
 			return err
 		}
-		output.WriteString(newRecord)
+		w.Write(newRecord)
 	}
 
 	return nil

@@ -9,5 +9,10 @@
         "expected": "",
         "pattern": ",/d0,/d5",
         "err": "err: column number out of range"
+    },
+    {
+        "input": "\"00a,00b\",01\n",
+        "expected": "01,\"00a,00b\"\n",
+        "pattern": ",/d1,/d0"
     }
 ]
