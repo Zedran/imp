@@ -82,7 +82,11 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params cl
 	comma, _ := utf8.DecodeRuneInString(spec.Comma)
 
 	r := csv.NewReader(input)
-	r.Comma = comma
+	if len(params.InputComma) > 0 {
+		r.Comma, _ = utf8.DecodeRuneInString(params.InputComma)
+	} else {
+		r.Comma = comma
+	}
 
 	w := csv.NewWriter(output)
 	w.Comma = comma

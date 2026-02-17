@@ -82,6 +82,7 @@ func (a *Args) BindParams() {
 	flag.StringVar(&a.Params.Output, "o", "", "output CSV file")
 	flag.StringVar(&a.Params.Encoding, "e", "utf-8", "input file encoding")
 	flag.StringVar(&a.Params.Pattern, "p", "", "pattern that determines how to rewrite the input file")
+	flag.StringVar(&a.Params.InputComma, "c", "", "comma character in the input file - specify if input and output use different characters")
 	flag.BoolVar(&a.Params.SkipHeader, "0", false, "omit the first row (header) from the input when rewriting")
 	flag.StringVar(&a.Params.NewHeader, "H", "", "add this string as the first row")
 	flag.BoolVar(&a.Params.Overwrite, "f", false, "overwrite output file if it exists")
@@ -98,6 +99,7 @@ func (a *Args) LoadPreset(name string) error {
 
 	a.Params.Encoding = preset.Encoding
 	a.Params.Pattern = preset.Pattern
+	a.Params.InputComma = preset.InputComma
 	a.Params.SkipHeader = preset.SkipHeader
 	a.Params.NewHeader = preset.NewHeader
 	a.Params.UseCRLF = preset.UseCRLF
@@ -117,6 +119,10 @@ func (a *Args) Validate() error {
 
 	if len(a.Params.Encoding) == 0 {
 		return errors.New("err: input encoding not specified")
+	}
+
+	if len(a.Params.InputComma) > 1 {
+		return errors.New("err: value of -c is not a single character")
 	}
 
 	return nil

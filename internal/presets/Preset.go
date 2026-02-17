@@ -22,6 +22,9 @@ type Preset struct {
 	// Pattern for output CSV file.
 	Pattern string `json:"pattern"`
 
+	// Character serving as comma in the input file.
+	InputComma string `json:"input_comma"`
+
 	// Indicates whether the header should be skipped.
 	SkipHeader bool `json:"skip_header"`
 

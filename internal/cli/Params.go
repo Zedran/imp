@@ -14,6 +14,10 @@ type Params struct {
 	// Pattern that determines how to rewrite the input file.
 	Pattern string
 
+	// Character that serves as CSV comma in the input file.
+	// If empty, it is assumed that it matches comma in the output.
+	InputComma string
+
 	// String inserted as the first row.
 	NewHeader string
 
