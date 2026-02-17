@@ -27,6 +27,9 @@ type Preset struct {
 
 	// This string will be inserted as the first row.
 	NewHeader string `json:"new_header"`
+
+	// Use CRLF instead of LF in the output file
+	UseCRLF bool `json:"crlf"`
 }
 
 // GeneratePresetsFile writes an empty presets file to current user's home

@@ -25,7 +25,7 @@ import (
 //   - overwrite     - if true, output file is overwritten if it exists
 //
 // Returns an error if any stage of the rewriting process fails.
-func RewriteCSV(inputPath, outputPath, enc, patternString string, skipHeader, overwrite bool, newHeader string) error {
+func RewriteCSV(inputPath, outputPath, enc, patternString string, skipHeader, overwrite, crlf bool, newHeader string) error {
 	spec, err := pattern.ParsePattern(patternString)
 	if err != nil {
 		return err
@@ -51,7 +51,7 @@ func RewriteCSV(inputPath, outputPath, enc, patternString string, skipHeader, ov
 	}
 	defer output.Close()
 
-	return rewriteRows(input, output, spec, skipHeader, newHeader)
+	return rewriteRows(input, output, spec, skipHeader, crlf, newHeader)
 }
 
 // buildRow returns a single, rewritten row in a string form.
@@ -86,7 +86,7 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 
 // rewriteRows coordinates the rewriting process. It accepts input Reader
 // and output writer, as well as Spec struct compiled by pattern.ParsePattern.
-func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, skipHeader bool, newHeader string) error {
+func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, skipHeader, crlf bool, newHeader string) error {
 	comma, _ := utf8.DecodeRuneInString(spec.Comma)
 
 	r := csv.NewReader(input)
@@ -94,6 +94,7 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, skipHeade
 
 	w := csv.NewWriter(output)
 	w.Comma = comma
+	w.UseCRLF = crlf
 	defer w.Flush()
 
 	if skipHeader {

@@ -4,7 +4,8 @@
         "expected": "new,02,03,00,01\nnew,12,13,10,11\n",
         "pattern": ",/snew,/d2,/d3,/d0,/d1",
         "skip_header": false,
-        "new_header": ""
+        "new_header": "",
+        "crlf": false
     },
     {
         "input": "00,01\n",
@@ -12,6 +13,7 @@
         "pattern": ",/d0,/d5",
         "skip_header": false,
         "new_header": "",
+        "crlf": false,
         "err": "err: column number out of range"
     },
     {
@@ -19,27 +21,47 @@
         "expected": "01,\"00a,00b\"\n",
         "pattern": ",/d1,/d0",
         "skip_header": false,
-        "new_header": ""
+        "new_header": "",
+        "crlf": false
     },
     {
         "input": "00,01,02,03\n10,11,12,13\n",
         "expected": "new,12,13,10,11\n",
         "pattern": ",/snew,/d2,/d3,/d0,/d1",
         "skip_header": true,
-        "new_header": ""
+        "new_header": "",
+        "crlf": false
     },
     {
         "input": "00,01,02,03\n10,11,12,13\n",
         "expected": "text,0,1,2,3\nnew,02,03,00,01\nnew,12,13,10,11\n",
         "pattern": ",/snew,/d2,/d3,/d0,/d1",
         "skip_header": false,
-        "new_header": "text,0,1,2,3"
+        "new_header": "text,0,1,2,3",
+        "crlf": false
     },
     {
         "input": "00,01,02,03\n10,11,12,13\n",
         "expected": "text,0,1,2,3\nnew,12,13,10,11\n",
         "pattern": ",/snew,/d2,/d3,/d0,/d1",
         "skip_header": true,
-        "new_header": "text,0,1,2,3"
+        "new_header": "text,0,1,2,3",
+        "crlf": false
+    },
+    {
+        "input": "00,01\r\n",
+        "expected": "01,00\r\n",
+        "pattern": ",/d1,/d0",
+        "skip_header": false,
+        "new_header": "",
+        "crlf": true
+    },
+    {
+        "input": "00,01\n",
+        "expected": "01,00\r\n",
+        "pattern": ",/d1,/d0",
+        "skip_header": false,
+        "new_header": "",
+        "crlf": true
     }
 ]

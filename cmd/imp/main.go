@@ -22,7 +22,8 @@ func main() {
 		newHeader  = flag.String("H", "", "add this string as the first row")
 		overwrite  = flag.Bool("f", false, "overwrite output file if it exists")
 		genPreset  = flag.Bool("G", false, "generate an empty preset file in user's home directory and exit")
-		preset     = flag.String("P", "", "preset name to be used instead of -e, -h and -p")
+		preset     = flag.String("P", "", "preset name to be used instead of -e, -h, -l and -p")
+		useCRLF    = flag.Bool("l", false, "use CRLF instead of LF for line endings in the output file")
 	)
 
 	flag.Usage = func() {
@@ -72,13 +73,14 @@ func main() {
 		*pattern = preset.Pattern
 		*skipHeader = preset.SkipHeader
 		*newHeader = preset.NewHeader
+		*useCRLF = preset.UseCRLF
 	}
 
 	if len(*encoding) == 0 {
 		log.Fatal("err: input encoding not specified")
 	}
 
-	err := icsv.RewriteCSV(*input, *output, *encoding, *pattern, *skipHeader, *overwrite, *newHeader)
+	err := icsv.RewriteCSV(*input, *output, *encoding, *pattern, *skipHeader, *overwrite, *useCRLF, *newHeader)
 	if err != nil {
 		log.Fatal(err)
 	}
