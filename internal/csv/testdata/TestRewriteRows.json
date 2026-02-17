@@ -3,25 +3,25 @@
         "input": "00,01,02,03\n10,11,12,13\n",
         "expected": "new,02,03,00,01\nnew,12,13,10,11\n",
         "pattern": ",/snew,/d2,/d3,/d0,/d1",
-        "no_header": false
+        "skip_header": false
     },
     {
         "input": "00,01\n",
         "expected": "",
         "pattern": ",/d0,/d5",
-        "no_header": false,
+        "skip_header": false,
         "err": "err: column number out of range"
     },
     {
         "input": "\"00a,00b\",01\n",
         "expected": "01,\"00a,00b\"\n",
         "pattern": ",/d1,/d0",
-        "no_header": false
+        "skip_header": false
     },
     {
         "input": "00,01,02,03\n10,11,12,13\n",
         "expected": "new,12,13,10,11\n",
         "pattern": ",/snew,/d2,/d3,/d0,/d1",
-        "no_header": true
+        "skip_header": true
     }
 ]
