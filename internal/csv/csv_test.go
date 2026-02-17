@@ -5,7 +5,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/Zedran/imp/internal/cli"
 	"github.com/Zedran/imp/internal/pattern"
+	"github.com/Zedran/imp/internal/presets"
 	"github.com/Zedran/imp/internal/tests"
 )
 
@@ -13,10 +15,7 @@ func TestRewriteRows(t *testing.T) {
 	type testData struct {
 		Input      string `json:"input"`
 		Expected   string `json:"expected"`
-		Pattern    string `json:"pattern"`
-		SkipHeader bool   `json:"skip_header"`
-		NewHeader  string `json:"new_header"`
-		UseCRLF    bool   `json:"crlf"`
+		Preset     presets.Preset `json:"preset"`
 		Err        string `json:"err"`
 	}
 
@@ -28,7 +27,14 @@ func TestRewriteRows(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		spec, err := pattern.ParsePattern(c.Pattern)
+		params := cli.Params{
+			Pattern:    c.Preset.Pattern,
+			SkipHeader: c.Preset.SkipHeader,
+			NewHeader:  c.Preset.NewHeader,
+			UseCRLF:    c.Preset.UseCRLF,
+		}
+
+		spec, err := pattern.ParsePattern(params.Pattern)
 		if err != nil {
 			t.Fatalf("failed to parse pattern: '%v'", err)
 		}
@@ -38,7 +44,7 @@ func TestRewriteRows(t *testing.T) {
 			out bytes.Buffer
 		)
 
-		err = rewriteRows(ir, &out, spec, c.SkipHeader, c.UseCRLF, c.NewHeader)
+		err = rewriteRows(ir, &out, spec, params)
 
 		if err != nil {
 			if len(c.Err) == 0 {

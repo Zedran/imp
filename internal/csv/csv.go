@@ -43,7 +43,7 @@ func RewriteCSV(params cli.Params) error {
 	}
 	defer output.Close()
 
-	return rewriteRows(input, output, spec, params.SkipHeader, params.UseCRLF, params.NewHeader)
+	return rewriteRows(input, output, spec, params)
 }
 
 // buildRow returns a single, rewritten row in a string form.
@@ -78,7 +78,7 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 
 // rewriteRows coordinates the rewriting process. It accepts input Reader
 // and output writer, as well as Spec struct compiled by pattern.ParsePattern.
-func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, skipHeader, crlf bool, newHeader string) error {
+func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params cli.Params) error {
 	comma, _ := utf8.DecodeRuneInString(spec.Comma)
 
 	r := csv.NewReader(input)
@@ -86,18 +86,18 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, skipHeade
 
 	w := csv.NewWriter(output)
 	w.Comma = comma
-	w.UseCRLF = crlf
+	w.UseCRLF = params.UseCRLF
 	defer w.Flush()
 
-	if skipHeader {
+	if params.SkipHeader {
 		_, err := r.Read()
 		if err != nil {
 			return fmt.Errorf("err: unexpected error on header skip: %w", err)
 		}
 	}
 
-	if len(newHeader) > 0 {
-		w.Write(strings.Split(newHeader, spec.Comma))
+	if len(params.NewHeader) > 0 {
+		w.Write(strings.Split(params.NewHeader, spec.Comma))
 	}
 
 	for {
