@@ -18,7 +18,7 @@ func main() {
 		output     = flag.String("o", "", "output CSV file")
 		encoding   = flag.String("c", "utf-8", "input file encoding")
 		pattern    = flag.String("p", "", "pattern that determines how to rewrite the input file")
-		skipHeader = flag.Bool("1", false, "omit the first line (header) from the input when rewriting")
+		skipHeader = flag.Bool("0", false, "omit the first line (header) from the input when rewriting")
 		newHeader  = flag.String("H", "", "add this string as the first row")
 		overwrite  = flag.Bool("f", false, "overwrite output file if it exists")
 		genPreset  = flag.Bool("G", false, "generate an empty preset file in user's home directory and exit")
