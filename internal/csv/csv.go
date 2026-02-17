@@ -10,48 +10,40 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/Zedran/imp/internal/cli"
 	"github.com/Zedran/imp/internal/encoding"
 	"github.com/Zedran/imp/internal/pattern"
 )
 
 // RewriteCSV is the top function of the application's internals.
-// It accepts 4 arguments:
-//   - inputPath     - original CSV file path
-//   - outputPath    - new CSV file path
-//   - encoding      - the encoding of the original CSV file
-//   - patternString - instructions on how to rewrite the CSV
-//   - skipHeader    - skip the first row of input CSV file when rewriting
-//   - newHeader     - the string to be inserted as the first row
-//   - overwrite     - if true, output file is overwritten if it exists
-//
 // Returns an error if any stage of the rewriting process fails.
-func RewriteCSV(inputPath, outputPath, enc, patternString string, skipHeader, overwrite, crlf bool, newHeader string) error {
-	spec, err := pattern.ParsePattern(patternString)
+func RewriteCSV(params cli.Params) error {
+	spec, err := pattern.ParsePattern(params.Pattern)
 	if err != nil {
 		return err
 	}
 
-	input, err := encoding.OpenUTF8(inputPath, enc)
+	input, err := encoding.OpenUTF8(params.Input, params.Encoding)
 	if err != nil {
 		return err
 	}
 	defer input.Close()
 
-	if !overwrite {
-		if _, err := os.Stat(outputPath); err == nil {
-			return fmt.Errorf("err: file '%s' already exists", outputPath)
+	if !params.Overwrite {
+		if _, err := os.Stat(params.Output); err == nil {
+			return fmt.Errorf("err: file '%s' already exists", params.Output)
 		} else if !errors.Is(err, fs.ErrNotExist) {
 			return fmt.Errorf("err: unexpected error returned from os.Stat: %w", err)
 		}
 	}
 
-	output, err := os.Create(outputPath)
+	output, err := os.Create(params.Output)
 	if err != nil {
 		return err
 	}
 	defer output.Close()
 
-	return rewriteRows(input, output, spec, skipHeader, crlf, newHeader)
+	return rewriteRows(input, output, spec, params.SkipHeader, params.UseCRLF, params.NewHeader)
 }
 
 // buildRow returns a single, rewritten row in a string form.
