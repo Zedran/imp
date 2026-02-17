@@ -114,7 +114,7 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, skipHeade
 			if err == io.EOF {
 				break
 			}
-			return err
+			return fmt.Errorf("err: unexpected error on read: %w", err)
 		}
 
 		newRecord, err := buildRow(record, spec)
