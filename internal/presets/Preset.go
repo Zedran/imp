@@ -24,6 +24,9 @@ type Preset struct {
 
 	// Indicates whether the header should be skipped.
 	SkipHeader bool `json:"skip_header"`
+
+	// This string will be inserted as the first row.
+	NewHeader string `json:"new_header"`
 }
 
 // GeneratePresetsFile writes an empty presets file to current user's home

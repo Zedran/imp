@@ -15,6 +15,7 @@ func TestRewriteRows(t *testing.T) {
 		Expected   string `json:"expected"`
 		Pattern    string `json:"pattern"`
 		SkipHeader bool   `json:"skip_header"`
+		NewHeader  string `json:"new_header"`
 		Err        string `json:"err"`
 	}
 
@@ -36,7 +37,7 @@ func TestRewriteRows(t *testing.T) {
 			out bytes.Buffer
 		)
 
-		err = rewriteRows(ir, &out, spec, c.SkipHeader)
+		err = rewriteRows(ir, &out, spec, c.SkipHeader, c.NewHeader)
 
 		if err != nil {
 			if len(c.Err) == 0 {
