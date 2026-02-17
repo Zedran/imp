@@ -13,10 +13,10 @@ import (
 
 func TestRewriteRows(t *testing.T) {
 	type testData struct {
-		Input      string `json:"input"`
-		Expected   string `json:"expected"`
-		Preset     presets.Preset `json:"preset"`
-		Err        string `json:"err"`
+		Input    string         `json:"input"`
+		Expected string         `json:"expected"`
+		Preset   presets.Preset `json:"preset"`
+		Err      string         `json:"err"`
 	}
 
 	cases := make([]testData, 0)
