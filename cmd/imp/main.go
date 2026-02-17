@@ -16,7 +16,7 @@ func main() {
 	var (
 		input      = flag.String("i", "", "input CSV file")
 		output     = flag.String("o", "", "output CSV file")
-		encoding   = flag.String("c", "utf-8", "input file encoding")
+		encoding   = flag.String("e", "utf-8", "input file encoding")
 		pattern    = flag.String("p", "", "pattern that determines how to rewrite the input file")
 		skipHeader = flag.Bool("0", false, "omit the first line (header) from the input when rewriting")
 		newHeader  = flag.String("H", "", "add this string as the first row")
