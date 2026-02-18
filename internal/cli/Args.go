@@ -73,7 +73,7 @@ func Parse(args []string) (Args, error) {
 // bindParams binds CLI args to members of Args.Params.
 func (a *Args) bindParams(fs *flag.FlagSet) {
 	fs.StringVar(&a.Params.Input, "i", utils.USE_STD_STREAM, "input CSV file")
-	fs.StringVar(&a.Params.Output, "o", "-", "output CSV file")
+	fs.StringVar(&a.Params.Output, "o", utils.USE_STD_STREAM, "output CSV file")
 	fs.StringVar(&a.Params.Encoding, "e", "utf-8", "input file encoding")
 	fs.StringVar(&a.Params.Pattern, "p", "", "pattern that determines how to rewrite the input file")
 	fs.StringVar(&a.Params.InputComma, "c", "", "comma character in the input file, if differs from output")

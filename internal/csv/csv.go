@@ -13,6 +13,7 @@ import (
 	"github.com/Zedran/imp/internal/cli"
 	"github.com/Zedran/imp/internal/encoding"
 	"github.com/Zedran/imp/internal/pattern"
+	"github.com/Zedran/imp/internal/utils"
 )
 
 // RewriteCSV is the top function of the application's internals.
@@ -39,7 +40,7 @@ func RewriteCSV(params cli.Params) error {
 
 	var output *os.File
 
-	if params.Output == "-" {
+	if params.Output == utils.USE_STD_STREAM {
 		output = os.Stdout
 	} else {
 		output, err = os.Create(params.Output)
