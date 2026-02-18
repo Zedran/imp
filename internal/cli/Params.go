@@ -3,32 +3,32 @@ package cli
 // Params is a collection of parameters required for CSV file rewriting.
 type Params struct {
 	// Path to the input CSV file.
-	Input string
+	Input string `json:"input"`
 
 	// Path to the output CSV file.
-	Output string
+	Output string `json:"output"`
 
 	// Encoding of the input file.
-	Encoding string
+	Encoding string `json:"encoding"`
 
 	// Pattern that determines how to rewrite the input file.
-	Pattern string
+	Pattern string `json:"pattern"`
 
 	// Character that serves as CSV comma in the input file.
 	// If empty, it is assumed that it matches comma in the output.
-	InputComma string
+	InputComma string `json:"input_comma"`
 
 	// String inserted as the first row.
-	NewHeader string
+	NewHeader string `json:"new_header"`
 
 	// Omit the first row from the input.
-	SkipHeader bool
+	SkipHeader bool `json:"skip_header"`
 
 	// Overwrite output file if it exists.
-	Overwrite bool
+	Overwrite bool `json:"overwrite"`
 
 	// Use CRLF instead of LF for line endings.
-	UseCRLF bool
+	UseCRLF bool `json:"crlf"`
 }
 
 // ApplyPreset copies values from Preset struct to the corresponding members.

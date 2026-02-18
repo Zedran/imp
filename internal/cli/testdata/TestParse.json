@@ -1,0 +1,110 @@
+[
+    {
+        "args": [
+            "-i",
+            "input.csv",
+            "-o",
+            "output.csv",
+            "-p",
+            ",/d0"
+        ],
+        "expected": {
+            "exit_early": false,
+            "params": {
+                "input": "input.csv",
+                "output": "output.csv",
+                "encoding": "utf-8",
+                "pattern": ",/d0",
+                "input_comma": "",
+                "new_header": "",
+                "skip_header": false,
+                "overwrite": false,
+                "crlf": false
+            }
+        }
+    },
+    {
+        "args": [
+            "-i",
+            "input.csv",
+            "-o",
+            "output.csv",
+            "-e",
+            "windows-1250",
+            "-p",
+            ",/d0",
+            "-c",
+            ";",
+            "-H",
+            "data",
+            "-0",
+            "-f",
+            "-l"
+        ],
+        "expected": {
+            "exit_early": false,
+            "params": {
+                "input": "input.csv",
+                "output": "output.csv",
+                "encoding": "windows-1250",
+                "pattern": ",/d0",
+                "input_comma": ";",
+                "new_header": "data",
+                "skip_header": true,
+                "overwrite": true,
+                "crlf": true
+            }
+        }
+    },
+    {
+        "args": [
+            "-o",
+            "output.csv",
+            "-p",
+            ",/d0"
+        ],
+        "expected": {},
+        "err": "err: input file not specified"
+    },
+    {
+        "args": [
+            "-i",
+            "input.csv",
+            "-p",
+            ",/d0"
+        ],
+        "expected": {},
+        "err": "err: output file not specified"
+    },
+    {
+        "args": [
+            "-i",
+            "input.csv",
+            "-e",
+            "",
+            "-o",
+            "output.csv"
+        ],
+        "expected": {},
+        "err": "err: input encoding not specified"
+    },
+    {
+        "args": [
+            "-i",
+            "input.csv",
+            "-o",
+            "output.csv",
+            "-c",
+            ",,"
+        ],
+        "expected": {},
+        "err": "err: value of -c is not a single character"
+    },
+    {
+        "args": [
+            "-non-existent"
+        ],
+        "expected": {},
+        "err": "err: flag provided but not defined: -non-existent"
+    }
+]

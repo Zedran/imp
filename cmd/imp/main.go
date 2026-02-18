@@ -11,7 +11,7 @@ import (
 func main() {
 	log.SetFlags(0)
 
-	args, err := cli.Parse()
+	args, err := cli.Parse(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
