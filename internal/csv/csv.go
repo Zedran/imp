@@ -37,11 +37,17 @@ func RewriteCSV(params cli.Params) error {
 		}
 	}
 
-	output, err := os.Create(params.Output)
-	if err != nil {
-		return err
+	var output *os.File
+
+	if params.Output == "-" {
+		output = os.Stdout
+	} else {
+		output, err = os.Create(params.Output)
+		if err != nil {
+			return err
+		}
+		defer output.Close()
 	}
-	defer output.Close()
 
 	return rewriteRows(input, output, spec, params)
 }
