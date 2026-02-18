@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"github.com/Zedran/imp/internal/utils"
 )
 
 // Args struct binds, reads and validates all CLI arguments.
@@ -70,7 +72,7 @@ func Parse(args []string) (Args, error) {
 
 // bindParams binds CLI args to members of Args.Params.
 func (a *Args) bindParams(fs *flag.FlagSet) {
-	fs.StringVar(&a.Params.Input, "i", "", "input CSV file")
+	fs.StringVar(&a.Params.Input, "i", utils.USE_STD_STREAM, "input CSV file")
 	fs.StringVar(&a.Params.Output, "o", "-", "output CSV file")
 	fs.StringVar(&a.Params.Encoding, "e", "utf-8", "input file encoding")
 	fs.StringVar(&a.Params.Pattern, "p", "", "pattern that determines how to rewrite the input file")
@@ -98,7 +100,7 @@ func (a *Args) loadPreset(name string) error {
 func (a *Args) usage(fs *flag.FlagSet) {
 	fs.SetOutput(os.Stdout)
 
-	fmt.Printf("Usage: %s -i FILE (-p PATTERN | -P PRESET) [OPTIONS]...\n\n", fs.Name())
+	fmt.Printf("Usage: %s (-p PATTERN | -P PRESET) [OPTIONS]...\n\n", fs.Name())
 	fmt.Printf("%s rewrites CSV files according to the specified set of parameters.\n\n", fs.Name())
 	fmt.Printf("Options:\n")
 	fs.PrintDefaults()

@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/Zedran/imp/internal/utils"
 	"golang.org/x/net/html/charset"
 )
 
@@ -19,6 +20,10 @@ func OpenUTF8(path, enc string) (io.ReadCloser, error) {
 	e, name := charset.Lookup(enc)
 	if len(name) == 0 {
 		return nil, fmt.Errorf("encoding '%s' not found", enc)
+	}
+
+	if path == utils.USE_STD_STREAM {
+		return io.NopCloser(os.Stdout), nil
 	}
 
 	f, err := os.Open(path)
