@@ -35,17 +35,19 @@ func Parse(args []string) (Args, error) {
 	a.bindParams(fs)
 
 	var (
-		help      = fs.Bool("h", false, "displays help message")
+		help      = false
 		genPreset = fs.Bool("G", false, "generate an empty preset file in user's home directory and exit")
 		preset    = fs.String("P", "", "name of preset to be used instead of -0, -c, -e, -H, -l and -p")
 	)
-	fs.BoolVar(help, "help", false, "displays help message")
 
 	if err := fs.Parse(args[1:]); err != nil {
-		return a, fmt.Errorf("err: %w", err)
+		if !errors.Is(err, flag.ErrHelp) {
+			return a, fmt.Errorf("err: %w", err)
+		}
+		help = true
 	}
 
-	if *help {
+	if help {
 		a.ExitEarly = true
 		a.usage(fs)
 		return a, nil
