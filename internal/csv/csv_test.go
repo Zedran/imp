@@ -26,13 +26,8 @@ func TestRewriteRows(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		params := cli.Params{
-			Pattern:    c.Preset.Pattern,
-			InputComma: c.Preset.InputComma,
-			SkipHeader: c.Preset.SkipHeader,
-			NewHeader:  c.Preset.NewHeader,
-			UseCRLF:    c.Preset.UseCRLF,
-		}
+		var params cli.Params
+		params.ApplyPreset(c.Preset)
 
 		spec, err := pattern.ParsePattern(params.Pattern)
 		if err != nil {

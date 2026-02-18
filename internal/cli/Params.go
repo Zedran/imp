@@ -30,3 +30,13 @@ type Params struct {
 	// Use CRLF instead of LF for line endings.
 	UseCRLF bool
 }
+
+// ApplyPreset copies values from Preset struct to the corresponding members.
+func (p *Params) ApplyPreset(preset Preset) {
+	p.Encoding = preset.Encoding
+	p.Pattern = preset.Pattern
+	p.InputComma = preset.InputComma
+	p.SkipHeader = preset.SkipHeader
+	p.NewHeader = preset.NewHeader
+	p.UseCRLF = preset.UseCRLF
+}

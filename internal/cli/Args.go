@@ -92,12 +92,7 @@ func (a *Args) loadPreset(name string) error {
 		return err
 	}
 
-	a.Params.Encoding = preset.Encoding
-	a.Params.Pattern = preset.Pattern
-	a.Params.InputComma = preset.InputComma
-	a.Params.SkipHeader = preset.SkipHeader
-	a.Params.NewHeader = preset.NewHeader
-	a.Params.UseCRLF = preset.UseCRLF
+	a.Params.ApplyPreset(preset)
 
 	return nil
 }
