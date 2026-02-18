@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 
 	"github.com/Zedran/imp/internal/cli"
 	icsv "github.com/Zedran/imp/internal/csv"
@@ -17,7 +16,7 @@ func main() {
 	}
 
 	if args.ExitEarly {
-		os.Exit(0)
+		return
 	}
 
 	err = icsv.RewriteCSV(args.Params)
