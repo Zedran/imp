@@ -5,8 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/Zedran/imp/internal/presets"
 )
 
 // Args struct binds, reads and validates all CLI arguments.
@@ -59,7 +57,7 @@ func Parse() (Args, error) {
 	flag.Parse()
 
 	if *genPreset {
-		if err := presets.GeneratePresetsFile(); err != nil {
+		if err := GeneratePresetsFile(); err != nil {
 			return a, err
 		}
 		a.ExitEarly = true
@@ -92,7 +90,7 @@ func (a *Args) BindParams() {
 // LoadPreset reads preset of the specified name and overwrites corresponding values
 // in Args.Params.
 func (a *Args) LoadPreset(name string) error {
-	preset, err := presets.LoadPreset(name)
+	preset, err := LoadPreset(name)
 	if err != nil {
 		return err
 	}

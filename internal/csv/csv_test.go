@@ -7,7 +7,6 @@ import (
 
 	"github.com/Zedran/imp/internal/cli"
 	"github.com/Zedran/imp/internal/pattern"
-	"github.com/Zedran/imp/internal/presets"
 	"github.com/Zedran/imp/internal/tests"
 )
 
@@ -15,7 +14,7 @@ func TestRewriteRows(t *testing.T) {
 	type testData struct {
 		Input    string         `json:"input"`
 		Expected string         `json:"expected"`
-		Preset   presets.Preset `json:"preset"`
+		Preset   cli.Preset `json:"preset"`
 		Err      string         `json:"err"`
 	}
 

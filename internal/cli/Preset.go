@@ -1,4 +1,4 @@
-package presets
+package cli
 
 import (
 	"encoding/json"
