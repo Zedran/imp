@@ -57,11 +57,8 @@ func Parse() (Args, error) {
 	flag.Parse()
 
 	if *genPreset {
-		if err := GeneratePresetsFile(); err != nil {
-			return a, err
-		}
 		a.ExitEarly = true
-		return a, nil
+		return a, GeneratePresetsFile()
 	}
 
 	if len(*preset) > 0 {
