@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 )
 
-// PRESETS_FILE is the default name of the presets file.
-const PRESETS_FILE string = ".imp-presets.json"
+// presetsFile is the default name of the presets file.
+const presetsFile string = ".imp-presets.json"
 
 // Preset stores a combination of pattern and encoding. Presets can be written
 // to the presets file to facilitate reuse.
@@ -35,15 +35,15 @@ type Preset struct {
 	UseCRLF bool `json:"crlf"`
 }
 
-// GeneratePresetsFile writes an empty presets file to current user's home
+// generatePresetsFile writes an empty presets file to current user's home
 // directory. If the file is already present, it returns an error.
-func GeneratePresetsFile() error {
+func generatePresetsFile() error {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return fmt.Errorf("err: failed to locate user's home directory: %w", err)
 	}
 
-	path := filepath.Join(home, PRESETS_FILE)
+	path := filepath.Join(home, presetsFile)
 
 	if _, err := os.Stat(path); err == nil {
 		return fmt.Errorf("err: file '%s' already exists", path)
@@ -69,15 +69,15 @@ func GeneratePresetsFile() error {
 	return err
 }
 
-// LoadPreset returns a Preset of the specified name from the presets file.
+// loadPreset returns a Preset of the specified name from the presets file.
 // If the Preset is not found, an error message is returned.
-func LoadPreset(name string) (Preset, error) {
+func loadPreset(name string) (Preset, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return Preset{}, fmt.Errorf("err: failed to locate user's home directory: %w", err)
 	}
 
-	f, err := os.Open(filepath.Join(home, PRESETS_FILE))
+	f, err := os.Open(filepath.Join(home, presetsFile))
 	if err != nil {
 		return Preset{}, fmt.Errorf("err: failed to open the presets file: %w", err)
 	}

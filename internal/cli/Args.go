@@ -26,7 +26,7 @@ func Parse() (Args, error) {
 
 	var a Args
 
-	a.BindParams()
+	a.bindParams()
 
 	var (
 		genPreset = flag.Bool("G", false, "generate an empty preset file in user's home directory and exit")
@@ -58,21 +58,21 @@ func Parse() (Args, error) {
 
 	if *genPreset {
 		a.ExitEarly = true
-		return a, GeneratePresetsFile()
+		return a, generatePresetsFile()
 	}
 
 	if len(*preset) > 0 {
-		err := a.LoadPreset(*preset)
+		err := a.loadPreset(*preset)
 		if err != nil {
 			return a, err
 		}
 	}
 
-	return a, a.Validate()
+	return a, a.validate()
 }
 
-// BindParams binds CLI args to members of Args.Params.
-func (a *Args) BindParams() {
+// bindParams binds CLI args to members of Args.Params.
+func (a *Args) bindParams() {
 	flag.StringVar(&a.Params.Input, "i", "", "input CSV file")
 	flag.StringVar(&a.Params.Output, "o", "", "output CSV file")
 	flag.StringVar(&a.Params.Encoding, "e", "utf-8", "input file encoding")
@@ -84,10 +84,10 @@ func (a *Args) BindParams() {
 	flag.BoolVar(&a.Params.UseCRLF, "l", false, "use CRLF instead of LF for line endings in the output file")
 }
 
-// LoadPreset reads preset of the specified name and overwrites corresponding values
+// loadPreset reads preset of the specified name and overwrites corresponding values
 // in Args.Params.
-func (a *Args) LoadPreset(name string) error {
-	preset, err := LoadPreset(name)
+func (a *Args) loadPreset(name string) error {
+	preset, err := loadPreset(name)
 	if err != nil {
 		return err
 	}
@@ -102,8 +102,8 @@ func (a *Args) LoadPreset(name string) error {
 	return nil
 }
 
-// Validate enforces invariants of the Args struct.
-func (a *Args) Validate() error {
+// validate enforces invariants of the Args struct.
+func (a *Args) validate() error {
 	if len(a.Params.Input) == 0 {
 		return errors.New("err: input file not specified")
 	}
