@@ -37,7 +37,7 @@ func Parse(args []string) (Args, error) {
 	var (
 		help      = fs.Bool("h", false, "displays help message")
 		genPreset = fs.Bool("G", false, "generate an empty preset file in user's home directory and exit")
-		preset    = fs.String("P", "", "preset name to be used instead of -e, -h, -l and -p")
+		preset    = fs.String("P", "", "name of preset to be used instead of -0, -c, -e, -H, -l and -p")
 	)
 	fs.BoolVar(help, "help", false, "displays help message")
 
@@ -72,7 +72,7 @@ func (a *Args) bindParams(fs *flag.FlagSet) {
 	fs.StringVar(&a.Params.Output, "o", "", "output CSV file")
 	fs.StringVar(&a.Params.Encoding, "e", "utf-8", "input file encoding")
 	fs.StringVar(&a.Params.Pattern, "p", "", "pattern that determines how to rewrite the input file")
-	fs.StringVar(&a.Params.InputComma, "c", "", "comma character in the input file - specify if input and output use different characters")
+	fs.StringVar(&a.Params.InputComma, "c", "", "comma character in the input file, if differs from output")
 	fs.BoolVar(&a.Params.SkipHeader, "0", false, "omit the first row (header) from the input when rewriting")
 	fs.StringVar(&a.Params.NewHeader, "H", "", "add this string as the first row")
 	fs.BoolVar(&a.Params.Overwrite, "f", false, "overwrite output file if it exists")
@@ -94,25 +94,27 @@ func (a *Args) loadPreset(name string) error {
 
 // usage prints help message to os.Stderr.
 func (a *Args) usage(fs *flag.FlagSet) {
-	fs.SetOutput(os.Stderr)
+	fs.SetOutput(os.Stdout)
 
-	fmt.Fprintf(os.Stderr, "Usage of %s:\n", fs.Name())
+	fmt.Printf("Usage: %s -i FILE -o FILE (-p PATTERN | -P PRESET) [OPTIONS]...\n\n", fs.Name())
+	fmt.Printf("%s rewrites CSV files according to the specified set of parameters.\n\n", fs.Name())
+	fmt.Printf("Options:\n")
 	fs.PrintDefaults()
-	fmt.Fprintln(
-		os.Stderr,
-		"\n",
-		"Pattern starts with the character serving as the CSV comma.\n",
-		"The second character will be interpreted as a tag prefix. Both\n",
-		"the comma and tag prefix can be freely chosen, but they need\n",
-		"to be unique - they cannot be used anywhere else in the pattern.\n\n",
-		"CSV content is specified with a series of tags:\n",
-		"  - '/d<number>' causes imp to insert the column <number> from\n",
-		"    the input file. Comma character is allowed at the end.\n",
-		"  - '/s<text> causes imp to insert an arbitrary <text>.\n\n",
-		"Example:\n",
-		"  - input file header:  'First name,Last name,Amount'\n",
-		"  - output file header: 'Full name,Amount'\n",
-		"  - pattern:            ',/d0/s /d1,/d2'",
+	fmt.Println(`
+Pattern starts with the character serving as the CSV comma. The second character
+will be interpreted as a tag prefix. Both the comma and tag prefix can be freely
+chosen, but they need to be unique - they cannot be used anywhere else
+in the pattern.
+
+CSV content is shaped with a series of tags:
+    - '/d<number>' causes imp to insert the column <number> from the input file.
+      Comma character is allowed at the end.
+    - '/s<text> causes imp to insert an arbitrary <text>.
+
+Example:
+    - input file structure:  'First name,Last name,Amount'
+    - output file structure: 'Full name,Amount'
+    - pattern:               ',/d0/s /d1,/d2'`,
 	)
 }
 
