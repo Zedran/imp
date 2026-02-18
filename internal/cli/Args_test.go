@@ -34,7 +34,6 @@ func TestParse(t *testing.T) {
 			}
 		} else {
 			if len(c.Err) > 0 {
-				t.Log(a.Params.Encoding)
 				t.Fatalf("no error returned for case %d, expected: '%v'", i, c.Err)
 			}
 			if a != c.Expected {
