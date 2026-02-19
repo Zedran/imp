@@ -77,6 +77,8 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 	}
 	if b.Len() > 0 {
 		newRow = append(newRow, b.String())
+	} else if spec.Tokens[len(spec.Tokens)-1].Text == spec.Comma {
+		newRow = append(newRow, "")
 	}
 
 	return newRow, nil

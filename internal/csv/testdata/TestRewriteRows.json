@@ -98,5 +98,38 @@
             "new_header": "",
             "crlf": true
         }
+    },
+    {
+        "input": "00,01\n",
+        "expected": "01abc,\n",
+        "preset": {
+            "pattern": ",/d1/sabc,",
+            "input_comma": ",",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": false
+        }
+    },
+    {
+        "input": "00,01\n",
+        "expected": "01abc,,,\n",
+        "preset": {
+            "pattern": ",/d1/sabc,,,",
+            "input_comma": ",",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": false
+        }
+    },
+    {
+        "input": "00,01\n",
+        "expected": ",,,\n",
+        "preset": {
+            "pattern": ",/s,,,",
+            "input_comma": ",",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": false
+        }
     }
 ]

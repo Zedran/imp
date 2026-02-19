@@ -283,5 +283,51 @@
             ],
             "comma": ","
         }
+    },
+    {
+        "input": ",/d1/sabc,",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 100,
+                    "column": 1,
+                    "text": ""
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "abc"
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                }
+            ],
+            "comma": ","
+        }
+    },
+    {
+        "input": ",/s,,,",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                }
+            ],
+            "comma": ","
+        }
     }
 ]
