@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"unicode/utf8"
 )
 
 // ParsePattern converts user input into a Specification struct.
@@ -29,6 +30,8 @@ func ParsePattern(pattern string) (Spec, error) {
 	groups := strings.Split(pattern[2:], pref)
 
 	tokens := make([]Token, 0, len(groups))
+
+	commaRune, _ := utf8.DecodeRuneInString(comma)
 
 	for _, g := range groups {
 		if len(g) < 2 {
@@ -55,12 +58,20 @@ func ParsePattern(pattern string) (Spec, error) {
 				tokens = append(tokens, NewTextToken(comma))
 			}
 		case TT_TEXT:
-			cols := strings.Split(g[1:], comma)
-			for i, c := range cols {
-				tokens = append(tokens, NewTextToken(c))
-				if i < len(cols)-1 {
+			var b strings.Builder
+			for _, c := range g[1:] {
+				if c == commaRune {
+					if b.Len() > 0 {
+						tokens = append(tokens, NewTextToken(b.String()))
+						b.Reset()
+					}
 					tokens = append(tokens, NewTextToken(comma))
+				} else {
+					b.WriteRune(c)
 				}
+			}
+			if b.Len() > 0 {
+				tokens = append(tokens, NewTextToken(b.String()))
 			}
 		default:
 			return Spec{}, fmt.Errorf("err: unknown group type specifier: '%s'", g)

@@ -148,5 +148,140 @@
             ],
             "comma": ";"
         }
+    },
+    {
+        "input": ",/sa,/sb,",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "a"
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "b"
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                }
+            ],
+            "comma": ","
+        }
+    },
+    {
+        "input": ",/sa,b,",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "a"
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "b"
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                }
+            ],
+            "comma": ","
+        }
+    },
+    {
+        "input": ",/sa,b,c",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "a"
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "b"
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": "c"
+                }
+            ],
+            "comma": ","
+        }
+    },
+    {
+        "input": ",/s,,,",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                }
+            ],
+            "comma": ","
+        }
+    },
+    {
+        "input": ",/s,/s,/s,",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                },
+                {
+                    "type": 115,
+                    "column": -1,
+                    "text": ","
+                }
+            ],
+            "comma": ","
+        }
     }
 ]
