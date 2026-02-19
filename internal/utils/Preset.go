@@ -1,4 +1,4 @@
-package cli
+package utils
 
 import (
 	"encoding/json"
@@ -35,9 +35,9 @@ type Preset struct {
 	UseCRLF bool `json:"crlf"`
 }
 
-// generatePresetsFile writes an empty presets file to current user's home
+// GeneratePresetsFile writes an empty presets file to current user's home
 // directory. If the file is already present, it returns an error.
-func generatePresetsFile() error {
+func GeneratePresetsFile() error {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return fmt.Errorf("err: failed to locate user's home directory: %w", err)
@@ -69,9 +69,9 @@ func generatePresetsFile() error {
 	return err
 }
 
-// loadPreset returns a Preset of the specified name from the presets file.
+// LoadPreset returns a Preset of the specified name from the presets file.
 // If the Preset is not found, an error message is returned.
-func loadPreset(name string) (Preset, error) {
+func LoadPreset(name string) (Preset, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return Preset{}, fmt.Errorf("err: failed to locate user's home directory: %w", err)

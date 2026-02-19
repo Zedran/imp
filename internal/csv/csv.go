@@ -10,7 +10,6 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/Zedran/imp/internal/cli"
 	"github.com/Zedran/imp/internal/encoding"
 	"github.com/Zedran/imp/internal/pattern"
 	"github.com/Zedran/imp/internal/utils"
@@ -18,7 +17,7 @@ import (
 
 // RewriteCSV is the top function of the application's internals.
 // Returns an error if any stage of the rewriting process fails.
-func RewriteCSV(params cli.Params) error {
+func RewriteCSV(params utils.Params) error {
 	spec, err := pattern.ParsePattern(params.Pattern)
 	if err != nil {
 		return err
@@ -85,7 +84,7 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 
 // rewriteRows coordinates the rewriting process. It accepts input Reader
 // and output writer, as well as Spec struct compiled by pattern.ParsePattern.
-func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params cli.Params) error {
+func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params utils.Params) error {
 	comma, _ := utf8.DecodeRuneInString(spec.Comma)
 
 	r := csv.NewReader(input)

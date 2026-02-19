@@ -1,4 +1,4 @@
-package cli
+package utils
 
 // Params is a collection of parameters required for CSV file rewriting.
 type Params struct {

@@ -5,16 +5,16 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Zedran/imp/internal/cli"
 	"github.com/Zedran/imp/internal/pattern"
 	"github.com/Zedran/imp/internal/tests"
+	"github.com/Zedran/imp/internal/utils"
 )
 
 func TestRewriteRows(t *testing.T) {
 	type testData struct {
 		Input    string     `json:"input"`
 		Expected string     `json:"expected"`
-		Preset   cli.Preset `json:"preset"`
+		Preset   utils.Preset `json:"preset"`
 		Err      string     `json:"err"`
 	}
 
@@ -26,7 +26,7 @@ func TestRewriteRows(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		var params cli.Params
+		var params utils.Params
 		params.ApplyPreset(c.Preset)
 
 		spec, err := pattern.ParsePattern(params.Pattern)

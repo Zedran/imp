@@ -17,7 +17,7 @@ type Args struct {
 	ExitEarly bool `json:"exit_early"`
 
 	// Parameters required for the main functionality.
-	Params Params `json:"params"`
+	Params utils.Params `json:"params"`
 }
 
 // Parse binds CLI options to the corresponding variables, parses user input
@@ -57,7 +57,7 @@ func Parse(args []string) (Args, error) {
 
 	if *genPreset {
 		a.ExitEarly = true
-		return a, generatePresetsFile()
+		return a, utils.GeneratePresetsFile()
 	}
 
 	if len(*preset) > 0 {
@@ -86,7 +86,7 @@ func (a *Args) bindParams(fs *flag.FlagSet) {
 // loadPreset reads preset of the specified name and overwrites corresponding values
 // in Args.Params.
 func (a *Args) loadPreset(name string) error {
-	preset, err := loadPreset(name)
+	preset, err := utils.LoadPreset(name)
 	if err != nil {
 		return err
 	}
