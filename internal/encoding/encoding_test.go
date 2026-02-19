@@ -3,7 +3,7 @@ package encoding
 import (
 	"io"
 	"os"
-	"path"
+	"path/filepath"
 	"slices"
 	"testing"
 
@@ -11,7 +11,7 @@ import (
 )
 
 func TestOpenUTF8(t *testing.T) {
-	reference, err := os.ReadFile(path.Join(tests.TEST_DATA_DIR, "utf-8.txt"))
+	reference, err := os.ReadFile(filepath.Join(tests.TEST_DATA_DIR, "utf-8.txt"))
 	if err != nil {
 		t.Fatalf("failed to load test data: '%v'", err)
 	}
@@ -24,7 +24,7 @@ func TestOpenUTF8(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		reader, err := OpenUTF8(path.Join(tests.TEST_DATA_DIR, c+".txt"), c)
+		reader, err := OpenUTF8(filepath.Join(tests.TEST_DATA_DIR, c+".txt"), c)
 		if err != nil {
 			t.Fatalf("failed to load test data: '%v'", err)
 		}
