@@ -23,12 +23,6 @@ func RewriteCSV(params utils.Params) error {
 		return err
 	}
 
-	input, err := encoding.OpenUTF8(params.Input, params.Encoding)
-	if err != nil {
-		return err
-	}
-	defer input.Close()
-
 	if !params.Overwrite {
 		if _, err := os.Stat(params.Output); err == nil {
 			return fmt.Errorf("err: file '%s' already exists", params.Output)
@@ -36,6 +30,12 @@ func RewriteCSV(params utils.Params) error {
 			return fmt.Errorf("err: unexpected error returned from os.Stat: %w", err)
 		}
 	}
+
+	input, err := encoding.OpenUTF8(params.Input, params.Encoding)
+	if err != nil {
+		return err
+	}
+	defer input.Close()
 
 	var output *os.File
 
