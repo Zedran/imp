@@ -59,7 +59,7 @@
         "expected": {
             "tokens": [
                 {
-                    "type": 0,
+                    "type": 100,
                     "column": 1234,
                     "text": ""
                 }
@@ -72,12 +72,12 @@
         "expected": {
             "tokens": [
                 {
-                    "type": 0,
+                    "type": 100,
                     "column": 1,
                     "text": ""
                 },
                 {
-                    "type": 1,
+                    "type": 115,
                     "column": -1,
                     "text": "1"
                 }
@@ -90,17 +90,17 @@
         "expected": {
             "tokens": [
                 {
-                    "type": 0,
+                    "type": 100,
                     "column": 1,
                     "text": ""
                 },
                 {
-                    "type": 1,
+                    "type": 115,
                     "column": -1,
                     "text": ","
                 },
                 {
-                    "type": 1,
+                    "type": 115,
                     "column": -1,
                     "text": "1"
                 }
@@ -113,22 +113,22 @@
         "expected": {
             "tokens": [
                 {
-                    "type": 0,
+                    "type": 100,
                     "column": 1,
                     "text": ""
                 },
                 {
-                    "type": 1,
+                    "type": 115,
                     "column": -1,
                     "text": "a"
                 },
                 {
-                    "type": 1,
+                    "type": 115,
                     "column": -1,
                     "text": ","
                 },
                 {
-                    "type": 1,
+                    "type": 115,
                     "column": -1,
                     "text": "1"
                 }
@@ -141,7 +141,7 @@
         "expected": {
             "tokens": [
                 {
-                    "type": 1,
+                    "type": 115,
                     "column": -1,
                     "text": "s"
                 }

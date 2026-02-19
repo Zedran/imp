@@ -35,8 +35,8 @@ func ParsePattern(pattern string) (Spec, error) {
 			return Spec{}, fmt.Errorf("err: empty group: '%s'", g)
 		}
 
-		switch g[0] {
-		case 'd':
+		switch TokenType(g[0]) {
+		case TT_COLUMN:
 			sub := g[1:]
 			appendComma := false
 			if strings.HasSuffix(sub, comma) {
@@ -54,7 +54,7 @@ func ParsePattern(pattern string) (Spec, error) {
 			if appendComma {
 				tokens = append(tokens, NewTextToken(comma))
 			}
-		case 's':
+		case TT_TEXT:
 			cols := strings.Split(g[1:], comma)
 			for i, c := range cols {
 				tokens = append(tokens, NewTextToken(c))

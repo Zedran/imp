@@ -1,14 +1,14 @@
 package pattern
 
 // Indicates a type of value stored in a Token struct.
-type TokenType uint8
+type TokenType byte
 
 const (
 	// Indicates that Token stores Column.
-	TT_COLUMN TokenType = iota
+	TT_COLUMN TokenType = 'd'
 
 	// Indicates that Token stores Text.
-	TT_TEXT
+	TT_TEXT TokenType = 's'
 )
 
 // Token is an union-like type. It stores either CSV column number
