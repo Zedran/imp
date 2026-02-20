@@ -40,6 +40,11 @@
         "err": "err: empty group"
     },
     {
+        "input": ",/d10000001/sa",
+        "expected": {},
+        "err": "err: maximum column number exceeded"
+    },
+    {
         "input": ",/d1s",
         "expected": {},
         "err": "err: invalid character in column group"

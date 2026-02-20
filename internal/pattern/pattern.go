@@ -10,6 +10,8 @@ import (
 
 // ParsePattern converts user input into a Specification struct.
 func ParsePattern(pattern string) (Spec, error) {
+	const COL_MAX int = 10_000_000
+
 	if len(pattern) < 2 {
 		return Spec{}, errors.New("err: empty pattern")
 	}
@@ -48,11 +50,20 @@ func ParsePattern(pattern string) (Spec, error) {
 			}
 			num, err := strconv.Atoi(sub)
 			if err != nil {
+				if errors.Is(err, strconv.ErrRange) {
+					return Spec{}, fmt.Errorf("err: maximum column number exceeded: %s", g)
+				}
 				return Spec{}, fmt.Errorf("err: invalid character in column group: '%s'", g)
 			}
+
 			if num < 0 {
 				return Spec{}, fmt.Errorf("err: negative number in column group: '%d'", num)
 			}
+
+			if num > COL_MAX {
+				return Spec{}, fmt.Errorf("err: maximum column number exceeded: %s", g)
+			}
+
 			tokens = append(tokens, NewColumnToken(num))
 			if appendComma {
 				tokens = append(tokens, NewTextToken(comma))
