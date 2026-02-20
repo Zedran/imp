@@ -21,6 +21,15 @@ func ParsePattern(pattern string) (Spec, error) {
 		pref  = pattern[1:2]
 	)
 
+	commaRune, _ := utf8.DecodeRuneInString(comma)
+	if commaRune == utf8.RuneError {
+		return Spec{}, errors.New("err: non-ASCII comma character")
+	}
+
+	if out, _ := utf8.DecodeRuneInString(pref); out == utf8.RuneError {
+		return Spec{}, errors.New("err: non-ASCII group separator")
+	}
+
 	if comma == pref {
 		return Spec{}, errors.New("err: comma and prefix are not unique characters")
 	}
@@ -32,8 +41,6 @@ func ParsePattern(pattern string) (Spec, error) {
 	groups := strings.Split(pattern[2:], pref)
 
 	tokens := make([]Token, 0, len(groups))
-
-	commaRune, _ := utf8.DecodeRuneInString(comma)
 
 	for _, g := range groups {
 		if len(g) < 2 {

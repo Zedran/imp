@@ -25,6 +25,16 @@
         "err": "err: incomplete group separator"
     },
     {
+        "input": "ł/sa",
+        "expected": {},
+        "err": "err: non-ASCII comma character"
+    },
+    {
+        "input": ",€sa",
+        "expected": {},
+        "err": "err: non-ASCII group separator"
+    },
+    {
         "input": ",/1a",
         "expected": {},
         "err": "err: unknown group type specifier"
