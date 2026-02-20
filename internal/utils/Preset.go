@@ -65,8 +65,12 @@ func GeneratePresetsFile() error {
 	}
 	stream = append(stream, '\n')
 
-	_, err = f.Write(stream)
-	return err
+	if _, err := f.Write(stream); err != nil {
+		return err
+	}
+
+	fmt.Printf("presets file created at %s\n", path)
+	return nil
 }
 
 // LoadPreset returns a Preset of the specified name from the presets file.
