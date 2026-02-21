@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime/debug"
 
 	"github.com/Zedran/imp/internal/utils"
 )
@@ -57,6 +58,7 @@ func Parse(args []string) (Args, error) {
 		help      = false
 		genPreset = fs.Bool("G", false, "generate an empty preset file in user's home directory and exit")
 		preset    = fs.String("P", "", "name of preset to be used instead of -0, -c, -e, -H, -l and -p")
+		version   = fs.Bool("v", false, "display version information and exit")
 	)
 
 	if err := fs.Parse(args[1:]); err != nil {
@@ -69,6 +71,12 @@ func Parse(args []string) (Args, error) {
 	if help {
 		a.ExitEarly = true
 		a.usage(fs)
+		return a, nil
+	}
+
+	if *version {
+		a.ExitEarly = true
+		a.version(fs)
 		return a, nil
 	}
 
@@ -158,4 +166,22 @@ func (a *Args) validate() error {
 	}
 
 	return nil
+}
+
+// version prints version information.
+func (a *Args) version(fs *flag.FlagSet) {
+	if info, ok := debug.ReadBuildInfo(); ok {
+		fmt.Printf("%s %s\n%s\n\n", fs.Name(), info.Main.Version, info.GoVersion)
+		for _, d := range info.Deps {
+			fmt.Printf("%s %s\n", d.Path, d.Version)
+		}
+	} else {
+		fmt.Printf("%s (unknown version)\n", fs.Name())
+	}
+
+	fmt.Println(`
+Copyright (C) 2026 Wojciech Głąb (github.com/Zedran)
+License GNU GPL-3.0-only <https://gnu.org/licenses/gpl-3.0.html>
+Third-party licenses: https://github.com/Zedran/imp/NOTICE.md`,
+	)
 }
