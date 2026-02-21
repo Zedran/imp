@@ -9,6 +9,7 @@ imp does the heavy lifting for you - specify your desired structure, let imp wor
 ## Table of contents
 
 * [Installation](#installation)
+    * [From Releases](#from-releases)
     * [From Go package index](#from-go-package-index)
 * [Options overview](#options-overview)
 * [Pattern](#pattern)
@@ -24,6 +25,15 @@ imp does the heavy lifting for you - specify your desired structure, let imp wor
 * [License](#license)
 
 ## Installation
+
+### From Releases
+
+Find the [latest release](https://github.com/Zedran/imp/releases/latest) and download package for your system. Packages are available for:
+
+* Debian-based systems
+* RPM-based systems
+
+On other Linux distributions, you can install imp from `tar.gz` archives, which are also available on the Releases page.
 
 ### From Go package index
 
