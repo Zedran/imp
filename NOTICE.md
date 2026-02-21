@@ -2,14 +2,14 @@
 
 This software incorporates source code licensed by third parties.
 
-## The Go authors
+## The Go Authors
 
 ### Packages:
 
 * [golang.org/x/net](https://pkg.go.dev/golang.org/x/net)
 * [golang.org/x/text](https://pkg.go.dev/golang.org/x/text)
 
-### Original license
+### License
 
 ```text
 Copyright 2009 The Go Authors.
