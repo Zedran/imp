@@ -19,11 +19,15 @@ builds:
 changelog:
   disable: true
 
+checksum:
+  name_template: '{{ .ProjectName }}-{{ .Version }}-checksums.txt'
+
 archives:
-  - files:
-    - LICENSE
-    - NOTICE.md
-    - README.md
+  - name_template: '{{ .Binary }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}-{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}'
+    files:
+      - LICENSE
+      - NOTICE.md
+      - README.md
 
 nfpms:
   - id: imp
