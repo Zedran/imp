@@ -1,0 +1,60 @@
+version: 2
+
+project_name: imp
+
+builds:
+  - id: imp
+    main: ./cmd/imp
+    binary: imp
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - 386
+
+changelog:
+  disable: true
+
+archives:
+  - files:
+    - LICENSE
+    - NOTICE.md
+    - README.md
+
+nfpms:
+  - id: imp
+    file_name_template: '{{ .PackageName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}-{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}'
+    formats:
+      - deb
+      - rpm
+    maintainer: "Wojciech Głąb (github.com/Zedran)"
+    vendor: "Wojciech Głąb (github.com/Zedran)"
+    homepage: "https://github.com/Zedran/imp"
+    description: |-
+      Tool for rewriting CSV files and normalizing encoding.
+
+      Created primarily for preprocessing CSV files containing transaction history
+      before importing them into GnuCash.
+
+      Users can specify several parameters that affect the way in which the CSV data
+      is rewritten. It is also possible to create a collection of presets for easier
+      reuse.
+
+      Packaged with GoReleaser (https://goreleaser.com).
+    section: utils
+    license: "GPL-3.0-only"
+    bindir: /usr/local/bin
+    contents:
+      - src: LICENSE
+        dst: /usr/share/doc/imp/LICENSE
+      - src: NOTICE.md
+        dst: /usr/share/doc/imp/NOTICE.md
+      - src: README.md
+        dst: /usr/share/doc/imp/README.md
+
+    rpm:
+      group: Unspecified
