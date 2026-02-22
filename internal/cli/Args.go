@@ -140,6 +140,10 @@ CSV content is shaped with a series of tags:
       Comma character is allowed at the end.
     - '/s<text> causes imp to insert an arbitrary <text>.
 
+There is also a special pattern ',*', indicating that imp should not perform any
+column modifications. Other options ('-0ceHl') are still effective and encoding
+is normalized.
+
 Example:
     - input file structure:  'First name,Last name,Amount'
     - output file structure: 'Full name,Amount'

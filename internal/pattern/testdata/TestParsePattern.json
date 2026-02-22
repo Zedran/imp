@@ -344,5 +344,18 @@
             ],
             "comma": ","
         }
+    },
+    {
+        "input": ",*",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 42,
+                    "column": -1,
+                    "text": ""
+                }
+            ],
+            "comma": ","
+        }
     }
 ]

@@ -131,5 +131,60 @@
             "new_header": "",
             "crlf": false
         }
+    },
+    {
+        "input": "00,01\n",
+        "expected": "00,01\n",
+        "preset": {
+            "pattern": ",*",
+            "input_comma": "",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": false
+        }
+    },
+    {
+        "input": "00,01\n",
+        "expected": "00;01\n",
+        "preset": {
+            "pattern": ";*",
+            "input_comma": ",",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": false
+        }
+    },
+    {
+        "input": "00,01\n",
+        "expected": "",
+        "preset": {
+            "pattern": ",*",
+            "input_comma": "",
+            "skip_header": true,
+            "new_header": "",
+            "crlf": false
+        }
+    },
+    {
+        "input": "00,01\n",
+        "expected": "A,B\n00,01\n",
+        "preset": {
+            "pattern": ",*",
+            "input_comma": "",
+            "skip_header": false,
+            "new_header": "A,B",
+            "crlf": false
+        }
+    },
+    {
+        "input": "00,01\n",
+        "expected": "00,01\r\n",
+        "preset": {
+            "pattern": ",*",
+            "input_comma": "",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": true
+        }
     }
 ]

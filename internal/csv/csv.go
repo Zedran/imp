@@ -101,6 +101,12 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 	return newRow, nil
 }
 
+// buildRowNoMod is a special function that does no modifications to the row.
+// It is used to build rows if TT_NO_MOD is the first Token within the pattern.
+func buildRowNoMod(old []string, spec pattern.Spec) ([]string, error) {
+	return old, nil
+}
+
 // rewriteRows coordinates the rewriting process. It accepts input Reader
 // and output writer, as well as Spec struct compiled by pattern.ParsePattern.
 func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params utils.Params) error {
@@ -129,6 +135,12 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params ut
 		w.Write(strings.Split(params.NewHeader, spec.Comma))
 	}
 
+	buildRowFunc := buildRow
+
+	if spec.Tokens[0].Type == pattern.TT_NO_MOD {
+		buildRowFunc = buildRowNoMod
+	}
+
 	for {
 		record, err := r.Read()
 		if err != nil {
@@ -138,7 +150,7 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params ut
 			return fmt.Errorf("err: unexpected error on read: %w", err)
 		}
 
-		newRecord, err := buildRow(record, spec)
+		newRecord, err := buildRowFunc(record, spec)
 		if err != nil {
 			return err
 		}

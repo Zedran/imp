@@ -43,12 +43,17 @@ func ParsePattern(pattern string) (Spec, error) {
 		return Spec{}, errors.New("err: non-ASCII comma character")
 	}
 
-	if out, _ := utf8.DecodeRuneInString(pref); out == utf8.RuneError {
+	prefRune, _ := utf8.DecodeRuneInString(pref)
+	if prefRune == utf8.RuneError {
 		return Spec{}, errors.New("err: non-ASCII group separator")
 	}
 
 	if comma == pref {
 		return Spec{}, errors.New("err: comma and prefix are not unique characters")
+	}
+
+	if prefRune == rune(TT_NO_MOD) {
+		return Spec{[]Token{NewNoModToken()}, comma}, nil
 	}
 
 	if strings.HasSuffix(pattern, pref) {

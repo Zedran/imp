@@ -24,6 +24,9 @@ const (
 	// Indicates that Token stores Column.
 	TT_COLUMN TokenType = 'd'
 
+	// Indicates that no column modifications should be performed.
+	TT_NO_MOD TokenType = '*'
+
 	// Indicates that Token stores Text.
 	TT_TEXT TokenType = 's'
 )
@@ -45,6 +48,11 @@ type Token struct {
 // Creates a new Token containing specified column number.
 func NewColumnToken(columnNumber int) Token {
 	return Token{TT_COLUMN, columnNumber, ""}
+}
+
+// Creates a new special Token that prevents any column modifications.
+func NewNoModToken() Token {
+	return Token{TT_NO_MOD, -1, ""}
 }
 
 // Creates a new Token containing specified text.
