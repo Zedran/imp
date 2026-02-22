@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime"
 	"runtime/debug"
 
 	"github.com/Zedran/imp/internal/utils"
@@ -175,7 +176,7 @@ func (a *Args) validate() error {
 // version prints version information.
 func (a *Args) version(fs *flag.FlagSet) {
 	if info, ok := debug.ReadBuildInfo(); ok {
-		fmt.Printf("%s %s\n%s\n\n", fs.Name(), info.Main.Version, info.GoVersion)
+		fmt.Printf("%s %s\n%s %s-%s\n\n", fs.Name(), info.Main.Version, info.GoVersion, runtime.GOOS, runtime.GOARCH)
 		for _, d := range info.Deps {
 			fmt.Printf("%s %s\n", d.Path, d.Version)
 		}
