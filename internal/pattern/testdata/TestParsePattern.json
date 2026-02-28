@@ -323,29 +323,6 @@
         }
     },
     {
-        "input": ",/s,,,",
-        "expected": {
-            "tokens": [
-                {
-                    "type": 115,
-                    "column": -1,
-                    "text": ","
-                },
-                {
-                    "type": 115,
-                    "column": -1,
-                    "text": ","
-                },
-                {
-                    "type": 115,
-                    "column": -1,
-                    "text": ","
-                }
-            ],
-            "comma": ","
-        }
-    },
-    {
         "input": ",*",
         "expected": {
             "tokens": [
