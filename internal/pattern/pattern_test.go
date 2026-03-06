@@ -28,6 +28,7 @@ import (
 func TestParsePattern(t *testing.T) {
 	type testData struct {
 		Input    string `json:"input"`
+		CurrSep  string `json:"curr_sep"`
 		Expected Spec   `json:"expected"`
 		Err      string `json:"err"`
 	}
@@ -40,21 +41,21 @@ func TestParsePattern(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		out, err := ParsePattern(c.Input)
+		out, err := ParsePattern(c.Input, c.CurrSep)
 
 		if err != nil {
 			if len(c.Err) == 0 {
-				t.Fatalf("unexpected error message for '%s': '%v'", c.Input, err)
+				t.Fatalf("unexpected error message for ['%s' '%s']: '%v'", c.Input, c.CurrSep, err)
 			}
 			if !strings.HasPrefix(err.Error(), c.Err) {
 				t.Fatalf("incorrect error message for '%s': '%v' != '%v*'", c.Input, err, c.Err)
 			}
 		} else {
 			if len(c.Err) > 0 {
-				t.Fatalf("no error returned for %s, expected: '%v'", c.Input, c.Err)
+				t.Fatalf("no error returned for '%s', expected: '%v'", c.Input, c.Err)
 			}
-			if !slices.Equal(out.Tokens, c.Expected.Tokens) || out.Comma != c.Expected.Comma {
-				t.Fatalf("incorrect output for '%s': %v != %v", c.Input, out, c.Expected)
+			if !slices.Equal(out.Tokens, c.Expected.Tokens) || out.Comma != c.Expected.Comma || out.CurrSep != c.Expected.CurrSep {
+				t.Fatalf("incorrect output for ['%s' '%s']: %v != %v", c.Input, c.CurrSep, out, c.Expected)
 			}
 		}
 	}

@@ -71,6 +71,7 @@
     },
     {
         "input": ",/d1234",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -79,11 +80,28 @@
                     "text": ""
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
+        }
+    },
+    {
+        "input": ",/c1234",
+        "curr_sep": ".",
+        "expected": {
+            "tokens": [
+                {
+                    "type": 99,
+                    "column": 1234,
+                    "text": ""
+                }
+            ],
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/d1/s1",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -97,11 +115,13 @@
                     "text": "1"
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/d1,/s1",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -120,11 +140,13 @@
                     "text": "1"
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/d1/sa,1",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -148,11 +170,13 @@
                     "text": "1"
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ";/ss",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -161,11 +185,13 @@
                     "text": "s"
                 }
             ],
-            "comma": ";"
+            "comma": ";",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/sa,/sb,",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -189,11 +215,13 @@
                     "text": ","
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/sa,b,",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -217,11 +245,13 @@
                     "text": ","
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/sa,b,c",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -250,11 +280,13 @@
                     "text": "c"
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/s,,,",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -273,11 +305,13 @@
                     "text": ","
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/s,/s,/s,",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -296,11 +330,13 @@
                     "text": ","
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",/d1/sabc,",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -319,11 +355,13 @@
                     "text": ","
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     },
     {
         "input": ",*",
+        "curr_sep": ".",
         "expected": {
             "tokens": [
                 {
@@ -332,7 +370,8 @@
                     "text": ""
                 }
             ],
-            "comma": ","
+            "comma": ",",
+            "curr_sep": "."
         }
     }
 ]

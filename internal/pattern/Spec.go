@@ -25,4 +25,7 @@ type Spec struct {
 
 	// CSV separator character.
 	Comma string `json:"comma"`
+
+	// Decimal separator for currency.
+	CurrSep string `json:"curr_sep"`
 }
