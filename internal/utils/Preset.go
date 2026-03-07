@@ -50,6 +50,9 @@ type Preset struct {
 
 	// Use CRLF instead of LF in the output file
 	UseCRLF bool `json:"crlf"`
+
+	// Decimal separator for currency.
+	CurrSep string `json:"curr_sep"`
 }
 
 // GeneratePresetsFile writes an empty presets file to current user's home

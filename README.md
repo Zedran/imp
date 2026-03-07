@@ -50,8 +50,9 @@ There are several options that modify imp's behaviour.
 | `-0`   | omits the first row (header) from the input when rewriting                        |
 | `-G`   | generates an empty preset file in user's home directory and exits                 |
 | `-H`   | adds the provided string as the first row (new header)                            |
-| `-P`   | preset name to be used - overrides `-0ceHlp` options                              |
+| `-P`   | preset name to be used - overrides `-0cdeHlp` options                             |
 | `-c`   | comma character in the input file (by default, the same as in output)             |
+| `-d`   | decimal separator for currency (default is `.`)                                   |
 | `-e`   | input file encoding (default is `utf-8`)                                          |
 | `-f`   | overwrite output file if it exists                                                |
 | `-i`   | input CSV file path, (by default, imp reads from `stdin`)                         |
@@ -71,6 +72,7 @@ Both characters must be unique and cannot be used for any other purpose within t
 There are two types of groups, differentiated by the character directly following the prefix:
 
 * `d<index>[comma]` - column group. This group indicates that compiler should substitute a CSV column the given index from input CSV file. Columns are enumerated starting with 0. A single comma character is allowed after the number.
+* `c<index>[comma]` - a special type of column group used for normalizing currency amount. The number contained in the corresponding column will have any "cosmetic" separators removed and the decimal separator will be converted to the one indicated by the `-d` option. imp assumes that decimal separators in the input are either `.` or `,`.
 * `s<text>` - text group. An arbitrary text will be inserted in place of this group in the output file.
 
 It is recommended to enclose your pattern in quotes.
@@ -88,6 +90,7 @@ The following table presents available JSON keys along with command-line options
 | `-0`   | `skip_header` | `bool`   | `false`       |
 | `-H`   | `new_header`  | `string` | `""`          |
 | `-c`   | `input_comma` | `string` | `""`          |
+| `-d`   | `curr_sep`    | `string` | `""`          |
 | `-e`   | `encoding`    | `string` | `""`          |
 | `-l`   | `crlf`        | `bool`   | `false`       |
 | `-p`   | `pattern`     | `string` | `""`          |
@@ -123,7 +126,7 @@ John,Doe,123
 
 ```text
 Full name,Amount,Currency
-John Doe,123,USD
+John Doe,123.00,USD
 ```
 
 **Notes:**
@@ -139,7 +142,8 @@ John Doe,123,USD
 imp -i input.csv                   \
     -e windows-1250                \
     -o output.csv                  \
-    -p ',/d0/s /d1,/d2,/sUSD'      \
+    -p ',/d0/s /d1,/c2,/sUSD'      \
+    -d '.'                         \
     -0                             \
     -H 'Full name,Amount,Currency'
 ```
@@ -147,7 +151,7 @@ imp -i input.csv                   \
 #### Pattern breakdown
 
 ```text
-,/d0/s /d1,/d2,/sUSD
+,/d0/s /d1,/c2,/sUSD
 ```
 
 **Special characters:**
@@ -161,7 +165,7 @@ imp -i input.csv                   \
     * `/d0` - copy contents from the 1st column
     * `/s `&nbsp;- insert a single space
     * `/d1,` - copy contents from the 2nd column and insert comma at the end
-2. `/d2,` - copy contents of the 3rd column, insert comma at the end
+2. `/c2,` - format the currency amount contained in the 3rd column, insert comma at the end
 3. `/sUSD` - insert text `USD`
 
 ### Using preset
@@ -170,11 +174,12 @@ imp -i input.csv                   \
 {
     "default": {
         "encoding":    "windows-1250",
-        "pattern":     ",/d0/s /d1,/d2,/sUSD",
+        "pattern":     ",/d0/s /d1,/c2,/sUSD",
         "input_comma": "",
         "skip_header": true,
         "new_header":  "Full name,Amount,Currency",
-        "crlf":        false
+        "crlf":        false,
+        "curr_sep":    "."
     }
 }
 ```

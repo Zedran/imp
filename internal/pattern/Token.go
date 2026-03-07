@@ -24,6 +24,11 @@ const (
 	// Indicates that Token stores Column.
 	TT_COLUMN TokenType = 'd'
 
+	// Indicates that Token stores Column with currency that requires
+	// formatting. Unlike the regular TT_COLUMN type, currency Column will be
+	// converted into a specified currency format.
+	TT_CURRENCY_COLUMN TokenType = 'c'
+
 	// Indicates that no column modifications should be performed.
 	TT_NO_MOD TokenType = '*'
 
@@ -46,8 +51,8 @@ type Token struct {
 }
 
 // Creates a new Token containing specified column number.
-func NewColumnToken(columnNumber int) Token {
-	return Token{TT_COLUMN, columnNumber, ""}
+func NewColumnToken(tt TokenType, columnNumber int) Token {
+	return Token{tt, columnNumber, ""}
 }
 
 // Creates a new special Token that prevents any column modifications.

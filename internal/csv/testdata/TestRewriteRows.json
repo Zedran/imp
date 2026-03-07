@@ -7,7 +7,8 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -18,7 +19,21 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
+        },
+        "err": "err: column number out of range"
+    },
+    {
+        "input": "00,01\n",
+        "expected": "",
+        "preset": {
+            "pattern": ",/d0,/c5",
+            "input_comma": "",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": false,
+            "curr_sep": "."
         },
         "err": "err: column number out of range"
     },
@@ -30,7 +45,8 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -41,7 +57,8 @@
             "input_comma": "",
             "skip_header": true,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -52,7 +69,8 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "text,0,1,2,3",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -63,7 +81,8 @@
             "input_comma": "",
             "skip_header": true,
             "new_header": "text,0,1,2,3",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -74,7 +93,8 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "",
-            "crlf": true
+            "crlf": true,
+            "curr_sep": "."
         }
     },
     {
@@ -85,7 +105,8 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "",
-            "crlf": true
+            "crlf": true,
+            "curr_sep": "."
         }
     },
     {
@@ -96,7 +117,8 @@
             "input_comma": ";",
             "skip_header": false,
             "new_header": "",
-            "crlf": true
+            "crlf": true,
+            "curr_sep": "."
         }
     },
     {
@@ -107,7 +129,8 @@
             "input_comma": ",",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -118,7 +141,8 @@
             "input_comma": ",",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -129,7 +153,8 @@
             "input_comma": ",",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -140,7 +165,8 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -151,7 +177,8 @@
             "input_comma": ",",
             "skip_header": false,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -162,7 +189,8 @@
             "input_comma": "",
             "skip_header": true,
             "new_header": "",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -173,7 +201,8 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "A,B",
-            "crlf": false
+            "crlf": false,
+            "curr_sep": "."
         }
     },
     {
@@ -184,7 +213,21 @@
             "input_comma": "",
             "skip_header": false,
             "new_header": "",
-            "crlf": true
+            "crlf": true,
+            "curr_sep": "."
+        }
+    },
+    {
+        "input": "00,1.00\n",
+        "curr_sep": ",",
+        "expected": "00;1,00\r\n",
+        "preset": {
+            "pattern": ";/d0;/c1",
+            "input_comma": ",",
+            "skip_header": false,
+            "new_header": "",
+            "crlf": true,
+            "curr_sep": ","
         }
     }
 ]

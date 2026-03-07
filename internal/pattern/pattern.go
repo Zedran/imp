@@ -26,7 +26,7 @@ import (
 )
 
 // ParsePattern converts user input into a Specification struct.
-func ParsePattern(pattern string) (Spec, error) {
+func ParsePattern(pattern, curSep string) (Spec, error) {
 	const COL_MAX int = 10_000_000
 
 	if len(pattern) < 2 {
@@ -53,7 +53,7 @@ func ParsePattern(pattern string) (Spec, error) {
 	}
 
 	if prefRune == rune(TT_NO_MOD) {
-		return Spec{[]Token{NewNoModToken()}, comma}, nil
+		return Spec{[]Token{NewNoModToken()}, comma, curSep}, nil
 	}
 
 	if strings.HasSuffix(pattern, pref) {
@@ -69,8 +69,8 @@ func ParsePattern(pattern string) (Spec, error) {
 			return Spec{}, fmt.Errorf("err: empty group: '%s'", g)
 		}
 
-		switch TokenType(g[0]) {
-		case TT_COLUMN:
+		switch tt := TokenType(g[0]); tt {
+		case TT_COLUMN, TT_CURRENCY_COLUMN:
 			sub := g[1:]
 			appendComma := false
 			if strings.HasSuffix(sub, comma) {
@@ -93,7 +93,7 @@ func ParsePattern(pattern string) (Spec, error) {
 				return Spec{}, fmt.Errorf("err: maximum column number exceeded: %s", g)
 			}
 
-			tokens = append(tokens, NewColumnToken(num))
+			tokens = append(tokens, NewColumnToken(tt, num))
 			if appendComma {
 				tokens = append(tokens, NewTextToken(comma))
 			}
@@ -118,5 +118,5 @@ func ParsePattern(pattern string) (Spec, error) {
 		}
 	}
 
-	return Spec{tokens, comma}, nil
+	return Spec{tokens, comma, curSep}, nil
 }

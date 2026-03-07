@@ -15,48 +15,33 @@
 // You should have received a copy of the GNU General Public License
 // along with imp.  If not, see <https://www.gnu.org/licenses/>.
 
-package pattern
+package utils
 
 import (
-	"slices"
-	"strings"
 	"testing"
 
 	"github.com/Zedran/imp/internal/tests"
 )
 
-func TestParsePattern(t *testing.T) {
+func TestFormatCurrency(t *testing.T) {
 	type testData struct {
 		Input    string `json:"input"`
-		CurrSep  string `json:"curr_sep"`
-		Expected Spec   `json:"expected"`
-		Err      string `json:"err"`
+		Decimal  string `json:"decimal"`
+		Expected string `json:"expected"`
 	}
 
 	cases := make([]testData, 0)
 
-	err := tests.ReadData("TestParsePattern.json", &cases)
+	err := tests.ReadData("TestFormatCurrency.json", &cases)
 	if err != nil {
 		t.Fatalf("failed to load test data: '%v'", err)
 	}
 
-	for _, c := range cases {
-		out, err := ParsePattern(c.Input, c.CurrSep)
+	for i, c := range cases {
+		out := FormatCurrency(c.Input, c.Decimal)
 
-		if err != nil {
-			if len(c.Err) == 0 {
-				t.Fatalf("unexpected error message for ['%s' '%s']: '%v'", c.Input, c.CurrSep, err)
-			}
-			if !strings.HasPrefix(err.Error(), c.Err) {
-				t.Fatalf("incorrect error message for '%s': '%v' != '%v*'", c.Input, err, c.Err)
-			}
-		} else {
-			if len(c.Err) > 0 {
-				t.Fatalf("no error returned for '%s', expected: '%v'", c.Input, c.Err)
-			}
-			if !slices.Equal(out.Tokens, c.Expected.Tokens) || out.Comma != c.Expected.Comma || out.CurrSep != c.Expected.CurrSep {
-				t.Fatalf("incorrect output for ['%s' '%s']: %v != %v", c.Input, c.CurrSep, out, c.Expected)
-			}
+		if out != c.Expected {
+			t.Fatalf("failed for case %d ['%s' '%s']: '%s' != '%s'", i, c.Input, c.Decimal, out, c.Expected)
 		}
 	}
 }
