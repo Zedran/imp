@@ -35,7 +35,7 @@ import (
 // RewriteCSV is the top function of the application's internals.
 // Returns an error if any stage of the rewriting process fails.
 func RewriteCSV(params utils.Params) error {
-	spec, err := pattern.ParsePattern(params.Pattern)
+	spec, err := pattern.ParsePattern(params.Pattern, params.CurrSep)
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func RewriteCSV(params utils.Params) error {
 }
 
 // buildRow returns a single, rewritten row in a string form.
-func buildRow(old []string, spec pattern.Spec) ([]string, error) {
+func buildRow(old []string, spec pattern.Spec, currSep string) ([]string, error) {
 	var (
 		b      strings.Builder
 		newRow = make([]string, 0, len(spec.Tokens))
@@ -83,6 +83,11 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 				return nil, fmt.Errorf("err: column number out of range: '%d'", token.Column)
 			}
 			b.WriteString(old[token.Column])
+		case pattern.TT_CURRENCY_COLUMN:
+			if len(old) <= token.Column {
+				return nil, fmt.Errorf("err: column number out of range: '%d'", token.Column)
+			}
+			b.WriteString(utils.FormatCurrency(old[token.Column], currSep))
 		case pattern.TT_TEXT:
 			if token.Text == string(spec.Comma) {
 				newRow = append(newRow, b.String())
@@ -103,7 +108,7 @@ func buildRow(old []string, spec pattern.Spec) ([]string, error) {
 
 // buildRowNoMod is a special function that does no modifications to the row.
 // It is used to build rows if TT_NO_MOD is the first Token within the pattern.
-func buildRowNoMod(old []string, spec pattern.Spec) ([]string, error) {
+func buildRowNoMod(old []string, spec pattern.Spec, currSep string) ([]string, error) {
 	return old, nil
 }
 
@@ -150,7 +155,7 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params ut
 			return fmt.Errorf("err: unexpected error on read: %w", err)
 		}
 
-		newRecord, err := buildRowFunc(record, spec)
+		newRecord, err := buildRowFunc(record, spec, params.CurrSep)
 		if err != nil {
 			return err
 		}

@@ -46,7 +46,7 @@ func TestRewriteRows(t *testing.T) {
 		var params utils.Params
 		params.ApplyPreset(c.Preset)
 
-		spec, err := pattern.ParsePattern(params.Pattern)
+		spec, err := pattern.ParsePattern(params.Pattern, c.Preset.CurrSep)
 		if err != nil {
 			t.Fatalf("failed to parse pattern: '%v'", err)
 		}

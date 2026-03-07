@@ -46,6 +46,9 @@ type Params struct {
 
 	// Use CRLF instead of LF for line endings.
 	UseCRLF bool `json:"crlf"`
+
+	// Decimal separator for currency.
+	CurrSep string `json:"curr_sep"`
 }
 
 // ApplyPreset copies values from Preset struct to the corresponding members.
@@ -56,4 +59,5 @@ func (p *Params) ApplyPreset(preset Preset) {
 	p.SkipHeader = preset.SkipHeader
 	p.NewHeader = preset.NewHeader
 	p.UseCRLF = preset.UseCRLF
+	p.CurrSep = preset.CurrSep
 }

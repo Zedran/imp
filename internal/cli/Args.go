@@ -107,6 +107,7 @@ func (a *Args) bindParams(fs *flag.FlagSet) {
 	fs.StringVar(&a.Params.NewHeader, "H", "", "add this string as the first row")
 	fs.BoolVar(&a.Params.Overwrite, "f", false, "overwrite output file if it exists")
 	fs.BoolVar(&a.Params.UseCRLF, "l", false, "use CRLF instead of LF for line endings in the output file")
+	fs.StringVar(&a.Params.CurrSep, "d", ".", "decimal separator for currency columns")
 }
 
 // loadPreset reads preset of the specified name and overwrites corresponding values
@@ -168,6 +169,14 @@ func (a *Args) validate() error {
 
 	if len(a.Params.InputComma) > 1 {
 		return errors.New("err: value of -c is not a single character")
+	}
+
+	if len(a.Params.CurrSep) == 0 {
+		return errors.New("err: empty currency decimal separator")
+	}
+
+	if len(a.Params.CurrSep) > 1 {
+		return errors.New("err: value of -d is not a single character")
 	}
 
 	return nil

@@ -19,7 +19,8 @@
                 "new_header": "",
                 "skip_header": false,
                 "overwrite": false,
-                "crlf": false
+                "crlf": false,
+                "curr_sep": "."
             }
         }
     },
@@ -52,7 +53,8 @@
                 "new_header": "data",
                 "skip_header": true,
                 "overwrite": true,
-                "crlf": true
+                "crlf": true,
+                "curr_sep": "."
             }
         }
     },
@@ -103,6 +105,30 @@
         ],
         "expected": {},
         "err": "err: value of -c is not a single character"
+    },
+    {
+        "args": [
+            "-i",
+            "input.csv",
+            "-o",
+            "output.csv",
+            "-d",
+            ""
+        ],
+        "expected": {},
+        "err": "err: empty currency decimal separator"
+    },
+    {
+        "args": [
+            "-i",
+            "input.csv",
+            "-o",
+            "output.csv",
+            "-d",
+            ",,"
+        ],
+        "expected": {},
+        "err": "err: value of -d is not a single character"
     },
     {
         "args": [
