@@ -35,7 +35,7 @@ import (
 // RewriteCSV is the top function of the application's internals.
 // Returns an error if any stage of the rewriting process fails.
 func RewriteCSV(params utils.Params) error {
-	spec, err := pattern.ParsePattern(params.Pattern, params.CurrSep)
+	spec, err := pattern.ParsePattern(params.Format.Pattern, params.Format.CurrSep)
 	if err != nil {
 		return err
 	}
@@ -48,7 +48,7 @@ func RewriteCSV(params utils.Params) error {
 		}
 	}
 
-	input, err := encoding.OpenUTF8(params.Input, params.Encoding)
+	input, err := encoding.OpenUTF8(params.Input, params.Format.Encoding)
 	if err != nil {
 		return err
 	}
@@ -118,26 +118,26 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params ut
 	comma, _ := utf8.DecodeRuneInString(spec.Comma)
 
 	r := csv.NewReader(input)
-	if len(params.InputComma) > 0 {
-		r.Comma, _ = utf8.DecodeRuneInString(params.InputComma)
+	if len(params.Format.InputComma) > 0 {
+		r.Comma, _ = utf8.DecodeRuneInString(params.Format.InputComma)
 	} else {
 		r.Comma = comma
 	}
 
 	w := csv.NewWriter(output)
 	w.Comma = comma
-	w.UseCRLF = params.UseCRLF
+	w.UseCRLF = params.Format.UseCRLF
 	defer w.Flush()
 
-	if params.SkipHeader {
+	if params.Format.SkipHeader {
 		_, err := r.Read()
 		if err != nil {
 			return fmt.Errorf("err: unexpected error on header skip: %w", err)
 		}
 	}
 
-	if len(params.NewHeader) > 0 {
-		w.Write(strings.Split(params.NewHeader, spec.Comma))
+	if len(params.Format.NewHeader) > 0 {
+		w.Write(strings.Split(params.Format.NewHeader, spec.Comma))
 	}
 
 	buildRowFunc := buildRow
@@ -155,7 +155,7 @@ func rewriteRows(input io.Reader, output io.Writer, spec pattern.Spec, params ut
 			return fmt.Errorf("err: unexpected error on read: %w", err)
 		}
 
-		newRecord, err := buildRowFunc(record, spec, params.CurrSep)
+		newRecord, err := buildRowFunc(record, spec, params.Format.CurrSep)
 		if err != nil {
 			return err
 		}

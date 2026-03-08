@@ -13,14 +13,16 @@
             "params": {
                 "input": "input.csv",
                 "output": "output.csv",
-                "encoding": "utf-8",
-                "pattern": ",/d0",
-                "input_comma": "",
-                "new_header": "",
-                "skip_header": false,
                 "overwrite": false,
-                "crlf": false,
-                "curr_sep": "."
+                "format": {
+                    "encoding": "utf-8",
+                    "pattern": ",/d0",
+                    "input_comma": "",
+                    "new_header": "",
+                    "skip_header": false,
+                    "crlf": false,
+                    "curr_sep": "."
+                }
             }
         }
     },
@@ -47,14 +49,16 @@
             "params": {
                 "input": "input.csv",
                 "output": "output.csv",
-                "encoding": "windows-1250",
-                "pattern": ",/d0",
-                "input_comma": ";",
-                "new_header": "data",
-                "skip_header": true,
                 "overwrite": true,
-                "crlf": true,
-                "curr_sep": "."
+                "format": {
+                    "encoding": "windows-1250",
+                    "pattern": ",/d0",
+                    "input_comma": ";",
+                    "new_header": "data",
+                    "skip_header": true,
+                    "crlf": true,
+                    "curr_sep": "."
+                }
             }
         }
     },
