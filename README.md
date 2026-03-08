@@ -38,7 +38,7 @@ On other Linux distributions, you can install imp from `tar.gz` archives, which 
 ### From Go package index
 
 ```sh
-go install github.com/Zedran/imp@latest
+go install github.com/Zedran/imp/cmd/imp@latest
 ```
 
 ## Options overview
