@@ -140,6 +140,8 @@ in the pattern.
 CSV content is shaped with a series of tags:
     - '/d<number>' causes imp to insert the column <number> from the input file.
       Comma character is allowed at the end.
+    - '/c<number>' works just like the /d tag, but in addition it causes imp
+      to perform currency format normalization on the column content.
     - '/s<text> causes imp to insert an arbitrary <text>.
 
 There is also a special pattern ',*', indicating that imp should not perform any
@@ -149,7 +151,7 @@ is normalized.
 Example:
     - input file structure:  'First name,Last name,Amount'
     - output file structure: 'Full name,Amount'
-    - pattern:               ',/d0/s /d1,/d2'`,
+    - pattern:               ',/d0/s /d1,/c2'`,
 	)
 }
 
