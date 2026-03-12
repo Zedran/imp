@@ -58,7 +58,7 @@ func Parse(args []string) (Args, error) {
 	var (
 		help      = false
 		genPreset = fs.Bool("G", false, "generate an empty preset file in user's home directory and exit")
-		preset    = fs.String("P", "", "name of preset to be used instead of -0, -c, -e, -H, -l and -p")
+		preset    = fs.String("P", "", "name of preset to be used instead of -0cdeHlp options")
 		version   = fs.Bool("v", false, "display version information and exit")
 	)
 
